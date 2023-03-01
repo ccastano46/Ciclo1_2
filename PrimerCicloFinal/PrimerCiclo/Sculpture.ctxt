@@ -1,0 +1,20 @@
+#BlueJ class context
+comment0.target=Sculpture
+comment0.text=\r\n\ Una\ escultura\ que\ se\ puede\ manipular\ y\ se\ dibuja\ a\ si\ mismo\ en\ Canvas.\r\n\ @Camargo\ -\ Casta\u00F1o\r\n\ @version\ 1.0.\ (18\ Febrero\ 2023)\r\n
+comment1.params=color\ xPosInicial\ yPosInicial
+comment1.target=Sculpture(java.lang.String,\ int,\ int)
+comment1.text=\r\n\ Constructor\ de\ la\ clase\ Sculpture\r\n\ @param\ color\ con\ el\ cual\ se\ va\ a\ representar\ la\ escultura.\r\n\ @param\ xPosInicial,\ posici\u00F3n\ x\ (latitud)\ inicial\ de\ la\ escultura.\r\n\ @param\ yPosInicial,\ posici\u00F3n\ y\ (longitud)\ inicial\ de\ la\ escultura.\r\n
+comment2.params=
+comment2.target=Circle\ getRepresentation()
+comment2.text=\r\n\ Funci\u00F3n\ para\ retornar\ la\ representaci\u00F3n\ de\ la\ escultura\ a\ las\ otras\ clases\r\n
+comment3.params=x\ y
+comment3.target=void\ setPos(int,\ int)
+comment3.text=\r\n\ Metodo\ que\ cambia\ la\ posicion\ de\ la\ escultura.\r\n\ @param\ xPos,\ nueva\ posici\u00F3n\ x\ de\ la\ escultura\r\n\ @param\ yPos,\ nueva\ posici\u00F3n\ y\ de\ la\ escultura.\r\n
+comment4.params=
+comment4.target=int[]\ getPos()
+comment4.text=\r\n\ Funci\u00F3n\ para\ retornar\ la\ ubicaci\u00F3n\ de\ la\ escultura\ a\ las\ otras\ clases.\r\n
+comment5.params=
+comment5.target=void\ makeVisible()
+comment6.params=
+comment6.target=void\ makeInvisible()
+numComments=7

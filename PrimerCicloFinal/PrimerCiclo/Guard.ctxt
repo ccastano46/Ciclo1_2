@@ -1,0 +1,22 @@
+#BlueJ class context
+comment0.target=Guard
+comment0.text=\r\n\ Un\ guardian\ que\ se\ puede\ manipular\ y\ se\ dibuja\ a\ si\ mismo\ en\ Canvas.\r\n\ @Camargo\ -\ Casta\u00F1o\r\n\ @version\ 1.0.\ (18\ Febrero\ 2023)\r\n
+comment1.params=xPos\ yPos\ color
+comment1.target=Guard(int,\ int,\ java.lang.String)
+comment1.text=\r\n\ Constructor\ del\ guardia\r\n\ @param\ xPos,\ pos\ x\ donde\ se\ encuentra\ la\ puerta\ de\ la\ habitaci\u00F3n\ en\ la\ cual\ pertenece\ el\ guardia.\r\n\ @param\ yPos,\ pos\ y\ donde\ se\ encuentra\ la\ puerta\ de\ la\ habitaci\u00F3n\ en\ la\ cual\ pertenece\ el\ guardia.\r\n\ @param\ color,\ habitaci\u00F3n\ a\ la\ que\ pertenece\ el\ guardia\r\n
+comment2.params=
+comment2.target=Rectangle\ getRepresentacion()
+comment2.text=\r\n\ Metodo\ que\ indica\ la\ representaci\u00F3n\ del\ guardia\ en\ el\ Canvas\r\n
+comment3.params=
+comment3.target=int[]\ getPos()
+comment3.text=\r\n\ Funci\u00F3n\ que\ indica\ la\ posici\u00F3n\ del\ guardia.\r\n
+comment4.params=xPos\ yPos
+comment4.target=void\ setPos(int,\ int)
+comment4.text=\r\n\ Metodo\ que\ ubica\ al\ guardia\ en\ alguna\ parte\ de\ la\ habitaci\u00F3n\r\n
+comment5.params=
+comment5.target=void\ makeVisible()
+comment5.text=\r\n\ Metodo\ que\ muestra\ la\ representaci\u00F3n\ del\ guardia\ en\ el\ canvas\r\n
+comment6.params=
+comment6.target=void\ makeInvisible()
+comment6.text=\r\n\ Metodo\ que\ oculta\ la\ representaci\u00F3n\ del\ guardia\ en\ el\ canvas\r\n
+numComments=7
