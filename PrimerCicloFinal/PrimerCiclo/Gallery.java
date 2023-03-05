@@ -31,6 +31,25 @@ public class Gallery
    }
    
    /**
+    * Constructor de la clase Gallery para el ejercicio de tener una sola habitacion
+    * con todos sus elementos inicializados.
+    * @param polygon, los vertices del la habitacion a crear
+    * @param guard, la ubicacion del guardia
+    * @param sculpture, la ubicacion de la escultura
+    */
+   public Gallery(int[][] polygon ,int[] guard, int[] sculpture){
+       Canvas.getCanvas(1000 + 8, 1000 + 8);
+       this.length = 1000;
+       this.width = 1000;
+       rooms = new HashMap<String, Room>();
+       onlyOneRoom = true;
+       buildRoom("black",polygon);
+       displaySculpture("black", sculpture[0], sculpture[1]);
+       arriveGuard("black");
+       moveGuard("black",guard[0],guard[1]);
+   }
+   
+   /**
     * Metodo para crear un nuevo cuarto.
     * @param color, color con el cual se va a identificar el cuarto.
     * @param polygon, matriz n x 2, que contiene las cordenadas de los vertices del poligono.
@@ -72,6 +91,21 @@ public class Gallery
    }
    
    /**
+    * Funcion para saber cual fue la distancia recorrida del guardia en 
+    * su respectivo cuarto.
+    * @param room, nombre del room
+    * @return numero de la distancia recorrida / 0
+    */
+   public float  distanceTraveled(String room){
+       if(rooms.containsKey(room)){
+           return rooms.get(room).distanceTraveled();
+       }else{
+           JOptionPane.showMessageDialog(null, "El cuarto indicado no existe");
+       }
+       return 0;
+   }
+   
+   /**
     * Metodo para posicionar al guardia en la puerta del cuarto.
     * @param room, cuarto al cual va a llegar el guardia.
     */
@@ -84,8 +118,6 @@ public class Gallery
        } else{
            proceso = false;
        }
-       
-       
    }
    
    /**

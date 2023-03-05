@@ -141,6 +141,7 @@ public class Room
         if (sculpture != null) return sculpture.getPos();
         return new int[] {};
     }
+    
     /**
      * Metodo que indica en que parte de la galeria se encuentra el guardia
      */
@@ -149,7 +150,7 @@ public class Room
         return new int[] {};
     }
     
-    /**
+    /**git 
      * Metodo que realiza el robo de la escultura dentro del cuarto
      */
     public void steal(){
@@ -172,5 +173,12 @@ public class Room
     
     public void setWatch(boolean isWatching){
         watch = isWatching;
+    }
+    
+/** Funcion para saber la distancia recorrida del guardia.
+* @return ditancia recorrida
+*/
+    public float distanceTraveled(){
+        return guard.getDistanciaRecorrida();
     }
 }
