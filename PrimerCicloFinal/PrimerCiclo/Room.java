@@ -14,6 +14,8 @@ public class Room
     private Guard guard;
     private Sculpture sculpture;
     private Polygon representacion;
+    //Es mientras conseguimos lo del area
+    private boolean watch = false;
    /**
     * Constructor del cuarto.
     * @param color, color con el cual se va a identificar el cuarto
@@ -32,7 +34,7 @@ public class Room
   public void makeVisible(){
         representacion.getBound();
         representacion.makeVisible();
-        if (guard != null) guard.makeVisible();
+        if (guard != null) guard.makeVisible(); 
         if (sculpture != null) sculpture.makeVisible();
     }
     
@@ -88,11 +90,12 @@ public class Room
      * @param yPos, posicion y del cuarto
      */
     public boolean displaySculpture(int xPos, int yPos){
-        if(representacion.contains(xPos,yPos)){
+        if(representacion.contains(xPos,yPos) && !isASculpture()){
             sculpture = new Sculpture(color, xPos, yPos);
             sculpture.makeVisible();
             return true;
         }else{
+            if (isASculpture()) JOptionPane.showMessageDialog(null, "Ya existe una escultura en el cuarto");
             return false;
         }
     }
@@ -125,7 +128,7 @@ public class Room
     }
     
     /**
-     * Metodo que indica si la alarma de la habitación esta prendida o apagada
+     * Función que indica si la alarma de la habitación esta prendida o apagada
      */
     public boolean getAlarm(){
         return alarm;
@@ -144,5 +147,30 @@ public class Room
     public int[] getGuardLocation(){
         if (guard != null) return guard.getPos();
         return new int[] {};
+    }
+    
+    /**
+     * Metodo que realiza el robo de la escultura dentro del cuarto
+     */
+    public void steal(){
+        sculpture.makeInvisible();
+        sculpture = null;
+    }
+    
+    /**
+     * Función para identificar si se encuentra una escultura dentro del cuarto
+     */
+    public boolean isASculpture(){
+        if (sculpture != null) return true;
+        else return false;
+    }
+    
+    //Mientras 
+    public boolean guardIsWatching(){
+        return watch;
+    }
+    
+    public void setWatch(boolean isWatching){
+        watch = isWatching;
     }
 }

@@ -212,7 +212,7 @@ public class Gallery
     }
     
     /**
-     * Metodo para saber si la última acción se realizo con exito
+     * Función para saber si la última acción se realizo con exito
      */
     
     public boolean ok(){
@@ -223,4 +223,50 @@ public class Gallery
         }
         return proceso;
     }
+    
+    /**
+     * Metodo para poder robar una escultura de un cuarto donde el guardia no la esta vigilando.
+     */
+    public void steal(){
+        proceso = false;
+        for (String room : rooms.keySet()){
+            if(sculptureIsPresent(room) && !rooms.get(room).guardIsWatching()){
+                rooms.get(room).steal();
+                alarm(room, true);
+                proceso = true;
+                System.out.println("Exito");
+                break;
+            }
+        }
+    }
+    /**
+     * Función para saber si la escultura esta dentro de un cuarto
+     * @param room, cuarto del cual se desea realizar la consulta
+     */
+    public boolean sculptureIsPresent(String room){
+        if(rooms.containsKey(room)){
+            proceso = true;
+            return rooms.get(room).isASculpture();
+        }
+        else{
+            proceso = false;
+            JOptionPane.showMessageDialog(null, "El cuarto indicado no existe");
+            return false;
+        }
+    }
+    
+    /**
+    * Función que indica los cuartos de la galeria que tienen la alarma prendida pero su escultura no a sido robada.
+    */
+   public String[] roomsWithFalseAlarm(){
+       ArrayList<String> cuartosGaleria = new ArrayList<String>();
+       String[] cuartosEnAlerta = roomsOnAlert();
+       for(int i = 0; i < cuartosEnAlerta.length; i++){
+           if(sculptureIsPresent(cuartosEnAlerta[i])) cuartosGaleria.add(cuartosEnAlerta[i]);
+       }
+       String[] cuartos = new String[cuartosGaleria.size()];
+       cuartos = cuartosGaleria.toArray(cuartos);
+       proceso = true;
+       return cuartos;
+   }
 }
