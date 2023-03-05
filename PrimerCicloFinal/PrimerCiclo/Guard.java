@@ -1,5 +1,6 @@
 import java.util.Objects;
 import javax.swing.JOptionPane;
+import java.lang.Math;
 /**
  * Un guardian que se puede manipular y se dibuja a si mismo en Canvas.
  * @Camargo - Castaño
@@ -12,6 +13,7 @@ public class Guard
     private String color;
     private Rectangle representacion;
     private Line recorrido;
+    private float distanciaRecorrida;
     
     /**
      * Constructor del guardia
@@ -24,6 +26,7 @@ public class Guard
         this.yPos=yPos;
         this.color=color;
         representacion=new Rectangle(6,6,xPos,yPos,color);
+        distanciaRecorrida = 0;
     }
     
     /**
@@ -42,9 +45,10 @@ public class Guard
     }
     
     /**
-     * Metodo que ubica al guardia en alguna parte de la habitación
+     * Metodo que ubica al guardia en alguna parte de la habitación y retorna la distancia recorrida por el guardía para llegar a esa posición
      */
-    public void setPos(int xPos, int yPos){
+    public float setPos(int xPos, int yPos){
+        int[] posIniciales = getPos();
         recorrido=null;
         recorrido= new Line(this.xPos+6/2,this.yPos+6/2,xPos+6/2,yPos+6/2);
         this.xPos=xPos;
@@ -53,6 +57,8 @@ public class Guard
         representacion.locate(xPos,yPos);
         representacion.makeVisible();
         recorrido.makeVisible();
+        distanciaRecorrida += (float) Math.sqrt(Math.pow(Math.abs(xPos - posIniciales[0]),2) + Math.pow(Math.abs(yPos - posIniciales[1]),2));
+        return distanciaRecorrida;
     }
     
     /**

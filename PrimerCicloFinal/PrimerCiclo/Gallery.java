@@ -15,6 +15,7 @@ public class Gallery
     private int width;
     private HashMap<String, Room> rooms;
     private boolean proceso = false;
+    private boolean onlyOneRoom;
     
     /**
      * Constructor de la clase Gallery
@@ -26,6 +27,7 @@ public class Gallery
        this.length = length;
        this.width = width;
        rooms = new HashMap<String, Room>();
+       onlyOneRoom = false;
    }
    
    /**
@@ -35,7 +37,7 @@ public class Gallery
     */
    
    public void buildRoom(String color, int[][] polygon){
-       if (polygon[0].length == polygon[1].length){
+       if (polygon[0].length == polygon[1].length && !onlyOneRoom){
            for (int i = 0; i < polygon[1].length; i++){
                polygon[1][i] = Math.abs(polygon[1][i] - length);
             }
@@ -49,6 +51,7 @@ public class Gallery
        } else{
             proceso = false;
         }  
+        if (onlyOneRoom) JOptionPane.showMessageDialog(null, "Para esta galería no se puede construir más de un cuarto");
    }
    
    /**
@@ -64,6 +67,7 @@ public class Gallery
        }
        else {
            proceso = false;
+           JOptionPane.showMessageDialog(null, "El cuarto indicado no existe o el gaurdia no se puede mover a la posición indicada");
        }
    }
    
@@ -95,6 +99,7 @@ public class Gallery
            proceso = true;
        }
        else {
+           
            proceso = false;
        }
    }
