@@ -37,25 +37,18 @@ public class Gallery
    public void buildRoom(String color, int[][] polygon){
        if (polygon[0].length == polygon[1].length){
            for (int i = 0; i < polygon[1].length; i++){
-            polygon[1][i] = Math.abs(polygon[1][i] - length);
-            System.out.println(polygon[1][i]);
-        }
-  
-        if(!rooms.containsKey(color)){
-           rooms.put(color, new Room(color, polygon));
-           rooms.get(color).makeVisible();
-           proceso = true;
+               polygon[1][i] = Math.abs(polygon[1][i] - length);
+            }
+            if(!rooms.containsKey(color)){
+                rooms.put(color, new Room(color, polygon));
+                rooms.get(color).makeVisible();
+                proceso = true;
+            } else{
+                proceso = false;
+            }
        } else{
-           proceso = false;
-       }
-       
-     
-        } else{
             proceso = false;
-        }
-       
-       
-       
+        }  
    }
    
    /**
@@ -149,11 +142,11 @@ public class Gallery
        return cuartos;
     }
     
+    
     /**
      * Función para saber en que posición esta la escultura de un cuarto.
      * @param room, cuarto al que pertenece la escultura.
      */
-    
     public int[] sculptureLocation(String room){
         if (rooms.containsKey(room)){
              int [] locations = rooms.get(room).getSculptureLocation();
@@ -208,7 +201,6 @@ public class Gallery
     
     public void finish(){
         Canvas ventana = Canvas.getCanvas();
-        ventana.bloquear();
         ventana.closeCanvas();
         JOptionPane.showMessageDialog(null, "Se termino la simulación exisotsamente");
         proceso = true;
@@ -219,6 +211,11 @@ public class Gallery
      */
     
     public boolean ok(){
+        if(proceso){
+            JOptionPane.showMessageDialog(null, "Acción exitosa");
+        }else{
+            JOptionPane.showMessageDialog(null, "Acción Fallida");
+        }
         return proceso;
     }
 }

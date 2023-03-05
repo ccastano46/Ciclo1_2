@@ -32,6 +32,7 @@ public class Guard
     public Rectangle getRepresentacion(){
         return representacion;
     }
+    
     /**
      * Función que indica la posición del guardia.
      */
