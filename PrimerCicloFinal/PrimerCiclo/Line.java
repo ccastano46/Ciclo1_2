@@ -72,4 +72,8 @@ public class Line{
         }
     }
     
+    public boolean intersectsLine(Line l){
+        return new java.awt.geom.Line2D.Float(xpointPos1, ypointPos1, xpointPos2, ypointPos2).intersectsLine(l.xpointPos1,l.ypointPos1,l.xpointPos2,l.ypointPos2);
+    }
+    
 }

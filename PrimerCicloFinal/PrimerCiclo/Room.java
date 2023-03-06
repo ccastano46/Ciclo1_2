@@ -11,10 +11,14 @@ public class Room
     private boolean alarm;
     private int[][] vertices;
     private String color;
-    private boolean watch;
     private Guard guard;
     private Sculpture sculpture;
     private Polygon representacion;
+
+    private Polygon areaVisibleSculpture;
+    //Es mientras conseguimos lo del area
+    private boolean watch = false;
+
    /**
     * Constructor del cuarto.
     * @param color, color con el cual se va a identificar el cuarto
@@ -163,7 +167,11 @@ public class Room
         if (sculpture != null) return true;
         else return false;
     }
+
     //Metodos Temporale para poder realizar las pruebas
+
+    
+
     public boolean guardIsWatching(){
         return watch;
     }
@@ -172,5 +180,14 @@ public class Room
         watch = esVigilado;
     }
     
-    
+    /** Funcion para saber la distancia recorrida del guardia.
+       * @return ditancia recorrida
+    */
+    public float distanceTraveled(){
+        return guard.getDistanciaRecorrida();
+    }
 }
+
+    
+    
+

@@ -200,7 +200,65 @@ public class Gallery
         return null;
     }
     
+    public float distanceTraveled(String room){
+        if(rooms.containsKey(room)){
+            proceso = true;
+            return rooms.get(room).distanceTraveled();
+        }
+        JOptionPane.showMessageDialog(null, "El cuarto indicado no existe");
+        proceso = false;
+        return 0;
+    }
+    
+    
     /**
+     * Metodo para poder robar una escultura de un cuarto donde el guardia no la esta vigilando.
+     */
+    public void steal(){
+        proceso = false;
+        for (String room : rooms.keySet()){
+            if(sculptureIsPresent(room) && !rooms.get(room).guardIsWatching()){
+                rooms.get(room).steal();
+                alarm(room, true);
+                proceso = true;
+                System.out.println("Exito");
+                break;
+            }
+        }
+    }
+    
+    /**
+     * Función para saber si la escultura esta dentro de un cuarto
+     * @param room, cuarto del cual se desea realizar la consulta
+     */
+    public boolean sculptureIsPresent(String room){
+        if(rooms.containsKey(room)){
+            proceso = true;
+            return rooms.get(room).isASculpture();
+        }
+        else{
+            proceso = false;
+            JOptionPane.showMessageDialog(null, "El cuarto indicado no existe");
+            return false;
+        }
+    }
+    
+    /**
+    * Función que indica los cuartos de la galeria que tienen la alarma prendida pero su escultura no a sido robada.
+    */
+   public String[] roomsWithFalseAlarm(){
+       ArrayList<String> cuartosGaleria = new ArrayList<String>();
+       String[] cuartosEnAlerta = roomsOnAlert();
+       for(int i = 0; i < cuartosEnAlerta.length; i++){
+           if(sculptureIsPresent(cuartosEnAlerta[i])) cuartosGaleria.add(cuartosEnAlerta[i]);
+       }
+       String[] cuartos = new String[cuartosGaleria.size()];
+       cuartos = cuartosGaleria.toArray(cuartos);
+       proceso = true;
+       return cuartos;
+   }
+   
+   /**
      * Metodo para hacer visible la galeria
      */
     
@@ -245,52 +303,7 @@ public class Gallery
         }
         return proceso;
     }
-    
-    /**
-     * Metodo para poder robar una escultura de un cuarto donde el guardia no la esta vigilando.
-     */
-    public void steal(){
-        proceso = false;
-        for (String room : rooms.keySet()){
-            if(sculptureIsPresent(room) && !rooms.get(room).guardIsWatching()){
-                rooms.get(room).steal();
-                alarm(room, true);
-                proceso = true;
-                System.out.println("Exito");
-                break;
-            }
-        }
-    }
-    /**
-     * Función para saber si la escultura esta dentro de un cuarto
-     * @param room, cuarto del cual se desea realizar la consulta
-     */
-    public boolean sculptureIsPresent(String room){
-        if(rooms.containsKey(room)){
-            proceso = true;
-            return rooms.get(room).isASculpture();
-        }
-        else{
-            proceso = false;
-            JOptionPane.showMessageDialog(null, "El cuarto indicado no existe");
-            return false;
-        }
-    }
-    
-    /**
-    * Función que indica los cuartos de la galeria que tienen la alarma prendida pero su escultura no a sido robada.
-    */
-   public String[] roomsWithFalseAlarm(){
-       ArrayList<String> cuartosGaleria = new ArrayList<String>();
-       String[] cuartosEnAlerta = roomsOnAlert();
-       for(int i = 0; i < cuartosEnAlerta.length; i++){
-           if(sculptureIsPresent(cuartosEnAlerta[i])) cuartosGaleria.add(cuartosEnAlerta[i]);
-       }
-       String[] cuartos = new String[cuartosGaleria.size()];
-       cuartos = cuartosGaleria.toArray(cuartos);
-       proceso = true;
-       return cuartos;
-   }
+
    //Metodo para realizar pruebas
    public void vigilarEscultura(String room, boolean esVigilado){
        if (rooms.containsKey(room)){
@@ -298,4 +311,11 @@ public class Gallery
        }
    }
    
+
+   
+   //Prueba
+   public void getAreaVisibleDeLaRoom(String room){
+       //rooms.get(room).createAreaVisibleSculpture();
+   }
+
 }

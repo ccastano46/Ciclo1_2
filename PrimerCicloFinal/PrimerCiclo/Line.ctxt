@@ -19,4 +19,6 @@ comment5.text=\r\n\ Draw\ the\ line\ with\ current\ specifications\ on\ screen.\
 comment6.params=
 comment6.target=void\ erase()
 comment6.text=\r\n\ Erase\ the\ line\ on\ screen.\r\n
-numComments=7
+comment7.params=l
+comment7.target=boolean\ intersectsLine(Line)
+numComments=8
