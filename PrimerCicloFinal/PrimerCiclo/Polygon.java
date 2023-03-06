@@ -97,6 +97,10 @@ public class Polygon{
         return new java.awt.Polygon(xPoints, yPoints, vertices).contains(xPos,yPos);
     }
     
+     public boolean inside(double xPos, double yPos){
+        return new java.awt.Polygon(xPoints, yPoints, vertices).inside((int)xPos,(int)yPos);
+    }
+    
     /**
      * Verifica un punto con valores decimales se encuentra dentro de la figura Polygon.
      * @param xPos Posicion en x del punto
@@ -107,6 +111,7 @@ public class Polygon{
         return new java.awt.Polygon(xPoints, yPoints, vertices).contains(xPos,yPos);
     }
     
+     
     /**
      * Erase the polygon on screen.
      */

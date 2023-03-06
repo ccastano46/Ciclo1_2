@@ -1,5 +1,6 @@
 import javax.swing.JOptionPane;
 import java.util.*;
+import java.awt.Point;
 /**
  * Una habitacion que se puede manipular y se dibuja a si mismo en Canvas.
  * @Camargo - Castaño
@@ -10,7 +11,7 @@ public class Room
     private boolean alarm;
     private int[][] vertices;
     private String color;
-    
+    private boolean watch;
     private Guard guard;
     private Sculpture sculpture;
     private Polygon representacion;
@@ -162,38 +163,14 @@ public class Room
         if (sculpture != null) return true;
         else return false;
     }
-    
+    //Metodos Temporale para poder realizar las pruebas
     public boolean guardIsWatching(){
-        int[] guardPos = getGuardLocation();
-        guardPos[1] = Math.abs(guardPos[1] - Gallery.getLength());
-        System.out.println(".....................");
-        System.out.println(guardPos[0] + " " + (guardPos[1]));
-        int[] sculpturePos = getSculptureLocation();
-        sculpturePos[1] = Math.abs(sculpturePos[1] - Gallery.getLength());
-        System.out.println(sculpturePos[0] + " " +sculpturePos[1]);
-        boolean isContained = true;
-        float[] vector = {(sculpturePos[0] + 6/2)-guardPos[0] ,(sculpturePos[1] - 6/2) - guardPos[1] };
-        vector[0] = 1/50 * vector[0];
-        vector[1] = 1/50 * vector[1];
-        for(int i = 0; i < 50; i++){
-            System.out.println("------------------------------------------------");
-            
-            System.out.println(vector[0] + " " +vector[1]);
-            System.out.println((vector[0] + guardPos[0]) + " " + (vector[1] + guardPos[1]));
-            vector[0] += 1/50;
-            vector[1] += 1/50;
-            System.out.println((vector[0] + guardPos[0]) + " " + (vector[1] + guardPos[1]) + " " + i);
-            /**
-            
-            isContained = representacion.contains(vector[0] + guardPos[0], vector[1] + guardPos[1]);
-            System.out.println(isContained);
-            System.out.println(vector[0] + " " +vector[1]);
-            System.out.println((vector[0] + guardPos[0]) + " " + (vector[1] + guardPos[1]));
-            System.out.println(isContained);
-            */
-        }
-        
-        return isContained;
-
+        return watch;
     }
+    
+    public void setWatch(boolean esVigilado){
+        watch = esVigilado;
+    }
+    
+    
 }

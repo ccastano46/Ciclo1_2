@@ -11,8 +11,8 @@ import java.util.*;
 
 public class Gallery
 {
-    private static int length;
-    private static int width;
+    private  int length;
+    private  int width;
     private HashMap<String, Room> rooms;
     private boolean proceso = false;
     private boolean onlyOneRoom = false;
@@ -291,12 +291,11 @@ public class Gallery
        proceso = true;
        return cuartos;
    }
-   
-   public static int getLength(){
-       return length;
+   //Metodo para realizar pruebas
+   public void vigilarEscultura(String room, boolean esVigilado){
+       if (rooms.containsKey(room)){
+           rooms.get(room).setWatch(esVigilado);
+       }
    }
    
-   public static int getWidth(){
-       return width;
-   }
 }
