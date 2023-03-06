@@ -11,11 +11,11 @@ import java.util.*;
 
 public class Gallery
 {
-    private int length;
-    private int width;
+    private static int length;
+    private static int width;
     private HashMap<String, Room> rooms;
     private boolean proceso = false;
-    private boolean onlyOneRoom;
+    private boolean onlyOneRoom = false;
     
     /**
      * Constructor de la clase Gallery
@@ -31,22 +31,25 @@ public class Gallery
    }
    
    /**
-    * Constructor de la clase Gallery para el ejercicio de tener una sola habitacion
-    * con todos sus elementos inicializados.
-    * @param polygon, los vertices del la habitacion a crear
-    * @param guard, la ubicacion del guardia
-    * @param sculpture, la ubicacion de la escultura
+    * Constructor de la clase Gallery cuando se quiere tener una galeria de una sola habiatación
+    * @param polygon, matriz n x 2, que contiene las cordenadas de los vertices del poligono que conforma el cuarto.
+    * @param guard, arreglo de dos dimensiones que contiene las posiciones x y y del guardia.
+    * @param sculpture, arreglo de dos dimensiones que contiene las posiciones x y y de la escultura para la habitación.
     */
-   public Gallery(int[][] polygon ,int[] guard, int[] sculpture){
-       Canvas.getCanvas(1000 + 8, 1000 + 8);
-       this.length = 1000;
-       this.width = 1000;
+   
+   public Gallery(int[][] polygon, int[] guard, int[] sculpture){
+       Canvas.getCanvas(808, 808);
+       this.length = 800;
+       this.width = 800;
        rooms = new HashMap<String, Room>();
-       onlyOneRoom = true;
-       buildRoom("black",polygon);
+       buildRoom("black", polygon);
        displaySculpture("black", sculpture[0], sculpture[1]);
        arriveGuard("black");
-       moveGuard("black",guard[0],guard[1]);
+       moveGuard("black", guard[0], guard[1]);
+       makeInvisible();
+       makeVisible();
+       onlyOneRoom = true;
+       
    }
    
    /**
@@ -86,23 +89,8 @@ public class Gallery
        }
        else {
            proceso = false;
-           JOptionPane.showMessageDialog(null, "El cuarto indicado no existe o el gaurdia no se puede mover a la posición indicada");
+           JOptionPane.showMessageDialog(null, "El cuarto indicado no existe o no se puede poner la escultura en esa posición");
        }
-   }
-   
-   /**
-    * Funcion para saber cual fue la distancia recorrida del guardia en 
-    * su respectivo cuarto.
-    * @param room, nombre del room
-    * @return numero de la distancia recorrida / 0
-    */
-   public float  distanceTraveled(String room){
-       if(rooms.containsKey(room)){
-           return rooms.get(room).distanceTraveled();
-       }else{
-           JOptionPane.showMessageDialog(null, "El cuarto indicado no existe");
-       }
-       return 0;
    }
    
    /**
@@ -118,6 +106,8 @@ public class Gallery
        } else{
            proceso = false;
        }
+       
+       
    }
    
    /**
@@ -300,5 +290,13 @@ public class Gallery
        cuartos = cuartosGaleria.toArray(cuartos);
        proceso = true;
        return cuartos;
+   }
+   
+   public static int getLength(){
+       return length;
+   }
+   
+   public static int getWidth(){
+       return width;
    }
 }

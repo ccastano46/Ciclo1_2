@@ -20,7 +20,7 @@ public class Canvas{
     // shape objects in this project clean and simple for educational purposes.
 
     private static Canvas canvasSingleton;
-
+  
     /**
      * Factory method to get the canvas singleton object.
      */

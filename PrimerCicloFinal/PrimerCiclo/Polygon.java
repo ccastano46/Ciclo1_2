@@ -88,12 +88,22 @@ public class Polygon{
     }
     
     /**
-     * Verifica un punto se encuentra dentro de la figura Polygon.
+     * Verifica un punto de enteros se encuentra dentro de la figura Polygon.
      * @param xPos Posicion en x del punto
      * @param yPos Posicion en y del punto
      * @return boolean true si se encunetra dentro, false si se encuentra afuera 
      */
     public boolean contains(int xPos, int yPos){
+        return new java.awt.Polygon(xPoints, yPoints, vertices).contains(xPos,yPos);
+    }
+    
+    /**
+     * Verifica un punto con valores decimales se encuentra dentro de la figura Polygon.
+     * @param xPos Posicion en x del punto
+     * @param yPos Posicion en y del punto
+     * @return boolean true si se encunetra dentro, false si se encuentra afuera 
+     */
+    public boolean contains(double xPos, double yPos){
         return new java.awt.Polygon(xPoints, yPoints, vertices).contains(xPos,yPos);
     }
     

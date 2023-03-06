@@ -47,7 +47,7 @@ public class Guard
     /**
      * Metodo que ubica al guardia en alguna parte de la habitación y retorna la distancia recorrida por el guardía para llegar a esa posición
      */
-    public void setPos(int xPos, int yPos){
+    public float setPos(int xPos, int yPos){
         int[] posIniciales = getPos();
         recorrido=null;
         recorrido= new Line(this.xPos+6/2,this.yPos+6/2,xPos+6/2,yPos+6/2);
@@ -58,6 +58,7 @@ public class Guard
         representacion.makeVisible();
         recorrido.makeVisible();
         distanciaRecorrida += (float) Math.sqrt(Math.pow(Math.abs(xPos - posIniciales[0]),2) + Math.pow(Math.abs(yPos - posIniciales[1]),2));
+        return distanciaRecorrida;
     }
     
     /**
@@ -68,19 +69,11 @@ public class Guard
         representacion.makeVisible();
     }
     
-    /**
+      /**
      * Metodo que oculta la representación del guardia en el canvas
-    */
+     */
     public void makeInvisible(){
         representacion.makeInvisible();
-    }
-    
-    /**
-     * Devuelve el valor del atributo distanciaRecorrida.
-     * @return atributo distanciaRecorrida
-     */
-    public float getDistanciaRecorrida(){
-        return distanciaRecorrida;
     }
   
 }
