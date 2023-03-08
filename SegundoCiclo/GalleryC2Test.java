@@ -40,9 +40,10 @@ public class GalleryC2Test
     @Test
     public void shouldDistanceTraveled(){
         Gallery gl = new Gallery(new int[][]{{60,80,160,200,140,120,180,120,100},{40,140,200,120,120,100,100,60,80}},new int[] {80,80},new int[] {180,140});
-        gl.moveGuard("black",80,100);
         gl.moveGuard("black",100,100);
-        assertEquals(40.0,gl.distanceTraveled("black"));
+        assertEquals(Math.round(73.00563 * 100.0) / 100.0 ,Math.round(gl.distanceTraveled("black") * 100.0) / 100.0,0);
+        gl.moveGuard("black",130,140);
+        assertEquals(Math.round(123.00563 * 100.0) / 100.0 ,Math.round(gl.distanceTraveled("black") * 100.0) / 100.0,0);
     }
     
     @Test

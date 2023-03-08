@@ -48,7 +48,7 @@ public class Guard
      * Metodo que ubica al guardia en alguna parte de la habitación y retorna la distancia recorrida por el guardía para llegar a esa posición
      */
     public void setPos(int xPos, int yPos){
-        int[] posIniciales = getPos();
+        distanciaRecorrida += (float) Math.sqrt(Math.pow(xPos - this.xPos,2) + Math.pow(yPos - this.yPos,2));
         recorrido=null;
         recorrido= new Line(this.xPos+6/2,this.yPos+6/2,xPos+6/2,yPos+6/2);
         this.xPos=xPos;
@@ -57,7 +57,6 @@ public class Guard
         representacion.locate(xPos,yPos);
         representacion.makeVisible();
         recorrido.makeVisible();
-        distanciaRecorrida += (float) Math.sqrt(Math.pow(Math.abs(xPos - posIniciales[0]),2) + Math.pow(Math.abs(yPos - posIniciales[1]),2));
     }
     
     /**
@@ -76,6 +75,7 @@ public class Guard
     }
     
     public float getDistanciaRecorrida(){
+        System.out.println(distanciaRecorrida);
         return distanciaRecorrida;
     }
   
