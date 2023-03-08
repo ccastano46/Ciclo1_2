@@ -32,7 +32,7 @@ public class GalleryC2Test
     
     @Test
     public void shouldNotSteal(){
-        Gallery gl = new Gallery(new int[][]{{60,80,160,200,140,120,180,120,100},{40,140,200,120,120,100,100,60,80}},new int[] {80,100},new int[] {180,140});
+        Gallery gl = new Gallery(new int[][]{{60,80,160,200,140,120,180,120,100},{40,140,200,120,120,100,100,60,80}},new int[] {80,140},new int[] {180,140});
         gl.steal();
         assertFalse(gl.ok());
     }
@@ -76,6 +76,7 @@ public class GalleryC2Test
         gl.buildRoom("blue",new int[][]{{300,300,400,450,350,350},{50,100,150,100,100,50}});
         gl.displaySculpture("blue",320,80);
         gl.arriveGuard("blue");
+        gl.alarm("blue",true);
         assertEquals(new String[] {"blue"},gl.roomsWithFalseAlarm());
     }
     

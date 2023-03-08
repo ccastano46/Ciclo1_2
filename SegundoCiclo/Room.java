@@ -16,8 +16,6 @@ public class Room
     private Polygon representacion;
 
     private Polygon areaVisibleSculpture;
-    //Es mientras conseguimos lo del area
-    private boolean watch = false;
 
    /**
     * Constructor del cuarto.
@@ -168,16 +166,41 @@ public class Room
         else return false;
     }
 
-    //Metodos Temporale para poder realizar las pruebas
-
-    
-
-    public boolean guardIsWatching(){
-        return watch;
-    }
-    
-    public void setWatch(boolean esVigilado){
-        watch = esVigilado;
+    /**
+     * Función que indica si el guardia de la habitación esta vigilando la escultura que esta dentro de esta misma.
+     * @param guardX, posición x del guardia.
+     * @param guardY, posición y del guardia.
+     * @param sculptureX, posición x de la escultura.
+     * @param sculptureY, posición y de la escultura.
+     */
+    public boolean guardIsWatching(int guardX, int guardY, int sculptureX, int sculptureY){
+        double[] vector = {(sculptureX + 3) - guardX, sculptureY - 3 - guardY};
+        boolean isContained = false;
+        boolean veElCentro = true;
+        // Se analiza si el guardia esta viendo el centro de la escultura
+        for (int i = 1; i<= 50; i++){
+            isContained = representacion.contains((double) vector[0] * i/50 + guardX, (double) vector[1] * i/50 + guardY);
+            if(!isContained) {
+                veElCentro = false;
+                break;
+            }
+        }
+        // Si el guardia esta viendo el centro, se trata de ver si ve almenos alguna de las dos mitades.
+        if(isContained){
+            vector[0] = (sculptureX + 6) - guardX;
+            for (int i = 1; i<= 50; i++){
+                isContained = representacion.contains((double) vector[0] * i/50 + guardX, (double) vector[1] * i/50 + guardY);
+                if(!isContained) break;
+            }
+        }
+        if (!isContained && veElCentro){
+            vector[0] = (sculptureX ) - guardX;
+            for (int i = 1; i<= 50; i++){
+                isContained = representacion.contains((double) vector[0] * i/50 + guardX, (double) vector[1] * i/50 + guardY);
+                if(!isContained) break;
+            }
+        }
+        return isContained;
     }
     
     /** Funcion para saber la distancia recorrida del guardia.

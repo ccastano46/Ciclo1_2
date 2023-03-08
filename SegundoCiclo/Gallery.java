@@ -178,9 +178,8 @@ public class Gallery
         if (rooms.containsKey(room)){
              int [] locations = rooms.get(room).getSculptureLocation();
              locations[1] = Math.abs(locations[1] - length);
-            proceso = true;
             return locations;
-        } else proceso = false;
+        } 
         return null;
 
     }
@@ -194,9 +193,8 @@ public class Gallery
         if (rooms.containsKey(room)){
              int [] locations = rooms.get(room).getGuardLocation();
              locations[1] = Math.abs(locations[1] - length);
-            proceso = true;
             return locations;
-        } else proceso = false;
+        }
         return null;
     }
     
@@ -217,15 +215,29 @@ public class Gallery
     public void steal(){
         proceso = false;
         for (String room : rooms.keySet()){
-            if(sculptureIsPresent(room) && !rooms.get(room).guardIsWatching()){
+            if(sculptureIsPresent(room) && !guardIsWatching(room)){
                 rooms.get(room).steal();
                 alarm(room, true);
                 proceso = true;
-                System.out.println("Exito");
                 break;
             }
         }
     }
+    
+    /**
+     * Función que indica si es guardia esta mirando la escultura en la habitación indicada
+     * @param room, cuarto del cual se quiere realizar la investigación
+     */
+    
+    public boolean guardIsWatching(String room){
+        if(rooms.containsKey(room)){
+            return rooms.get(room).guardIsWatching(guardLocation(room)[0], Math.abs(guardLocation(room)[1] - length), sculptureLocation(room)[0],Math.abs(sculptureLocation(room)[1] - length) );
+        } else{
+            JOptionPane.showMessageDialog(null, "El cuarto indicado no existe");
+            return false;
+        }
+    }
+    
     
     /**
      * Función para saber si la escultura esta dentro de un cuarto
@@ -233,11 +245,9 @@ public class Gallery
      */
     public boolean sculptureIsPresent(String room){
         if(rooms.containsKey(room)){
-            proceso = true;
             return rooms.get(room).isASculpture();
         }
         else{
-            proceso = false;
             JOptionPane.showMessageDialog(null, "El cuarto indicado no existe");
             return false;
         }
@@ -296,26 +306,9 @@ public class Gallery
      */
     
     public boolean ok(){
-        if(proceso){
-            JOptionPane.showMessageDialog(null, "Acción exitosa");
-        }else{
-            JOptionPane.showMessageDialog(null, "Acción Fallida");
-        }
         return proceso;
     }
 
-   //Metodo para realizar pruebas
-   public void vigilarEscultura(String room, boolean esVigilado){
-       if (rooms.containsKey(room)){
-           rooms.get(room).setWatch(esVigilado);
-       }
-   }
    
-
-   
-   //Prueba
-   public void getAreaVisibleDeLaRoom(String room){
-       //rooms.get(room).createAreaVisibleSculpture();
-   }
 
 }
