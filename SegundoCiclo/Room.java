@@ -209,6 +209,61 @@ public class Room
     public float distanceTraveled(){
         return guard.getDistanciaRecorrida();
     }
+    
+    /**
+     * Prueba para sacar el area visible
+     */
+    public Polygon createAreaVisibleSculpture(){
+        int[] sculptureLocation = getSculptureLocation();
+        ArrayList<int[]> posVert = new ArrayList<int[]>();
+        Line lineaAVertice;
+        Line lineaAux;
+        representacion.makeInvisible();
+        int cont = 0;
+        for(int i = 0; i < vertices[1].length; i++){
+            
+            if(vertices[0][i] < sculptureLocation[0]){
+                lineaAVertice = new Line(vertices[0][i],vertices[1][i],1001,puntoYDeLaEcuacionDeUnaRecta(sculptureLocation[0],sculptureLocation[1],vertices[0][i],vertices[1][i],1001));
+            }else{
+                lineaAVertice = new Line(vertices[0][i],vertices[1][i],-1,puntoYDeLaEcuacionDeUnaRecta(sculptureLocation[0],sculptureLocation[1],vertices[0][i],vertices[1][i],-1));
+                
+            }
+            
+            cont = 0;
+            for(int j = 0; j < vertices[1].length; j++){
+                if(j==vertices[1].length-1){
+                    lineaAux= new  Line(vertices[0][j],vertices[1][j],vertices[0][0],vertices[1][0]);
+                }else{
+                    lineaAux= new  Line(vertices[0][j],vertices[1][j],vertices[0][j+1],vertices[1][j+1]);
+                }
+                if(lineaAVertice.intersectsLine(lineaAux)){
+                    System.out.println(vertices[0][i]+","+vertices[1][i]);
+                    cont+=1;
+                }
+                lineaAux.makeVisible();
+            }
+            
+            if(cont < 4){
+                if(vertices[0][i] < sculptureLocation[0]){
+                    lineaAVertice = new Line(sculptureLocation[0],sculptureLocation[1],-1,puntoYDeLaEcuacionDeUnaRecta(sculptureLocation[0],sculptureLocation[1],vertices[0][i],vertices[1][i],-1));
+                }else{
+                    lineaAVertice = new Line(sculptureLocation[0],sculptureLocation[1],1001,puntoYDeLaEcuacionDeUnaRecta(sculptureLocation[0],sculptureLocation[1],vertices[0][i],vertices[1][i],1001));
+                }
+                lineaAVertice.makeVisible();
+            }
+        }
+        
+        return null;
+    }
+    
+    private float puntoYDeLaEcuacionDeUnaRecta(int x1,int y1,int x2,int y2,int Xpunto){
+        float y = y2-y1;
+        float x =x2-x1;
+        if(x == 0){
+            return 0;
+        }
+        return (y/x)*Xpunto-((y/x)*x1) + y1;
+    }
 }
 
     
