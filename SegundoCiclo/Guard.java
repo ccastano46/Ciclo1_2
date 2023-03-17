@@ -75,7 +75,6 @@ public class Guard
     }
     
     public float getDistanciaRecorrida(){
-        System.out.println(distanciaRecorrida);
         return distanciaRecorrida;
     }
   

@@ -1,4 +1,4 @@
-    import javax.swing.JOptionPane;
+import javax.swing.JOptionPane;
 import java.util.*;
 import java.awt.Point;
 import java.util.ArrayList; 
@@ -241,7 +241,7 @@ public class Room
        return lineas;
     }
     
-    public double[][] puntosDeInteres(){
+    public Line[] puntosDeInteres(){
         Line[] lineasDeEscultura = visibleLines();
         Line[] lineasDeGuardia = vertixesWatchingGuard();
         double[] funcion = new double[2];
@@ -249,20 +249,20 @@ public class Room
         double b;
         double xInt;
         double yInt;
-        ArrayList<double[]> puntosDeInterseccion = new ArrayList<double[]>();
+        ArrayList<Line> puntosDeInterseccion = new ArrayList<Line>();
         for(Line linea : lineasDeEscultura){
             funcion = linea.calculateFunction();
             for(Line linea2 : lineasDeGuardia){
-                pendiente = (double) -1/funcion[0];
-                b = (double)(linea2.getY2() - pendiente*linea2.getX2());
-                xInt = (double) (funcion[1]- b)/(-funcion[0] + pendiente);
-                yInt = (double) (-funcion[0] * b +pendiente * funcion[1]) / (-funcion[0] + pendiente);
-                if(representacion.contains(new Line(linea2.getX2(), linea2.getY2(), (float) xInt, (float)yInt))){
-                    puntosDeInterseccion.add(new double[] {xInt,yInt});
+                pendiente = -1/funcion[0];
+                b = (linea2.getY2() - pendiente*linea2.getX2());
+                xInt = (funcion[1]- b)/(-funcion[0] + pendiente);
+                yInt = (-funcion[0] * b +pendiente * funcion[1]) / (-funcion[0] + pendiente);
+                if(representacion.contains(new Line(linea2.getX2(), linea2.getY2(), xInt, yInt))){
+                    puntosDeInterseccion.add(new Line(linea2.getX2(), linea2.getY2(), xInt, yInt));
                 }
             }
         }
-        double[][] puntosDeInteres = new double[puntosDeInterseccion.size()][2];
+        Line[] puntosDeInteres = new Line[puntosDeInterseccion.size()];
         puntosDeInteres = puntosDeInterseccion.toArray(puntosDeInteres);
         return puntosDeInteres;
     }

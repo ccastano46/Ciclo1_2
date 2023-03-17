@@ -128,10 +128,10 @@ public class Polygon{
      */
     
     public boolean contains(Line linea){
-        float[] vector = {linea.getX2() - linea.getX1(), linea.getY2() - linea.getY1()};
+        double[] vector = {linea.getX2() - linea.getX1(), linea.getY2() - linea.getY1()};
         boolean isContained = false;
         for(int i = 1; i <= 50; i++){
-            isContained = contains((double) vector[0] * i/50 + linea.getX1(), (double) vector[1] * i/50 + linea.getY1());
+            isContained = contains(vector[0] * i/50 + linea.getX1(),vector[1] * i/50 + linea.getY1());
             if(!isContained) break;
         }
         return isContained;

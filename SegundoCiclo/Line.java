@@ -5,10 +5,10 @@ import java.awt.*;
  * @version 1.0. (18 Febrero 2023)
  */
 public class Line{
-    private float xpointPos1;
-    private float xpointPos2;
-    private float ypointPos1;
-    private float ypointPos2;
+    private double xpointPos1;
+    private double xpointPos2;
+    private double ypointPos1;
+    private double ypointPos2;
     private String color;
     private boolean isVisible;
     
@@ -16,7 +16,7 @@ public class Line{
      * Construye un linea por medio de dos puntos, tiene caracteristica
      * de color y visibilidad.
      */
-    public Line(float xpointPos1 ,float ypointPos1,float xpointPos2, float ypointPos2){
+    public Line(double xpointPos1 ,double ypointPos1,double xpointPos2, double ypointPos2){
         this.xpointPos1=xpointPos1;
         this.xpointPos2=xpointPos2;
         this.ypointPos1=ypointPos1;
@@ -57,7 +57,7 @@ public class Line{
     private void draw(){
         if(isVisible) {
             Canvas canvas = Canvas.getCanvas();
-            canvas.draw(this, color, new java.awt.geom.Line2D.Float(xpointPos1, ypointPos1, xpointPos2, ypointPos2));
+            canvas.draw(this, color, new java.awt.geom.Line2D.Double(xpointPos1, ypointPos1, xpointPos2, ypointPos2));
             canvas.wait(10);
         }
     }
@@ -73,7 +73,7 @@ public class Line{
     }
     
     public boolean intersectsLine(Line l){
-        return new java.awt.geom.Line2D.Float(xpointPos1, ypointPos1, xpointPos2, ypointPos2).intersectsLine(l.xpointPos1,l.ypointPos1,l.xpointPos2,l.ypointPos2);
+        return new java.awt.geom.Line2D.Double(xpointPos1, ypointPos1, xpointPos2, ypointPos2).intersectsLine(l.xpointPos1,l.ypointPos1,l.xpointPos2,l.ypointPos2);
     }
     
     /**
@@ -88,19 +88,19 @@ public class Line{
         return funcion;
     }
     
-    public float getX1(){
+    public double getX1(){
         return xpointPos1;
     }
     
-    public float getX2(){
+    public double getX2(){
         return xpointPos2;
     }
     
-    public float getY1(){
+    public double getY1(){
         return ypointPos1;
     }
     
-    public float getY2(){
+    public double getY2(){
         return ypointPos2;
     }
 }
