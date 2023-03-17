@@ -2,6 +2,7 @@ import javax.swing.JOptionPane;
 import java.util.*;
 import java.awt.Point;
 import java.util.ArrayList; 
+import java.util.HashMap;
 /**
  * Una habitacion que se puede manipular y se dibuja a si mismo en Canvas.
  * @Camargo - Castaño
@@ -211,7 +212,7 @@ public class Room
         return guard.getDistanciaRecorrida();
     }
     
-    private Line[] visibleLines(){
+    public Line[] visibleLines(){
         ArrayList<Line> lineasVisibles = new ArrayList<Line>();
         for (int i = 0; i < vertices[0].length; i++){
             if (guardIsWatching(vertices[0][i], vertices[1][i], getSculptureLocation()[0],getSculptureLocation()[1])){
@@ -226,7 +227,7 @@ public class Room
        return lineas;
     }
     
-   private Line[] vertixesWatchingGuard(){
+   public Line[] vertixesWatchingGuard(){
         ArrayList<Line> lineasVisibles = new ArrayList<Line>();
         for (int i = 0; i < vertices[0].length; i++){
             if (guardIsWatching(vertices[0][i], vertices[1][i], getGuardLocation()[0],getGuardLocation()[1])){
@@ -266,8 +267,36 @@ public class Room
         puntosDeInteres = puntosDeInterseccion.toArray(puntosDeInteres);
         return puntosDeInteres;
     }
-}
+    
+    public float shortestDistance(){
+        int numNodos = visibleLines().length + vertixesWatchingGuard().length + puntosDeInteres().length + 1;
+        ArrayList<double[]> nodos = new ArrayList<double[]>();
+        ArrayList<Line> conexiones = new ArrayList<Line>();
+        nodos.add(new double[] {vertixesWatchingGuard()[0].getX1(), vertixesWatchingGuard()[0].getY1()});
+        for(Line linea : visibleLines()){
+            nodos.add(new double[] {linea.getX2(), visibleLines()[0].getY2()});
+            conexiones.add(linea);
+        }
+        for(Line linea : vertixesWatchingGuard()){
+            nodos.add(new double[] {linea.getX2(), visibleLines()[0].getY2()});
+            conexiones.add(linea);
+        }
+         for(Line linea : puntosDeInteres()){
+            nodos.add(new double[] {linea.getX2(), visibleLines()[0].getY2()});
+            conexiones.add(linea);
+        }
+        for(double[] nodo : nodos){
+            for(Line linea : conexiones){
+                if(linea.contains(nodo[0], nodo[1])){
+                    
+                }
+            }
+        }
+        System.out.println(nodos.size());
+        return 0;
 
+    }
+}
     
     
 

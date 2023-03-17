@@ -103,4 +103,12 @@ public class Line{
     public double getY2(){
         return ypointPos2;
     }
+    
+    public float longitud(){
+        return (float) Math.sqrt(Math.pow(xpointPos2 - xpointPos1,2) + Math.pow(ypointPos2 - ypointPos1,2));
+    }
+    
+    public boolean contains(double xPoint,double yPoint){
+        return (xPoint == xpointPos1 || xPoint == xpointPos2) && (yPoint == ypointPos1 || yPoint == ypointPos2);
+    }
 }

@@ -1,8 +1,8 @@
 #BlueJ class context
 comment0.target=Dijkstra
-comment0.text=\r\n\ Write\ a\ description\ of\ class\ DIjkstra\ here.\r\n\ \r\n\ @author\ (your\ name)\ \r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
-comment1.params=numNodos
-comment1.target=Dijkstra(int)
-comment2.params=origen
-comment2.target=void\ calc(int)
+comment0.text=\r\n\ \r\n
+comment1.params=n\ s
+comment1.target=void\ calc(int,\ int)
+comment2.params=args
+comment2.target=void\ main(java.lang.String[])
 numComments=3
