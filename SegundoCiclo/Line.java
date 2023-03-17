@@ -76,4 +76,31 @@ public class Line{
         return new java.awt.geom.Line2D.Float(xpointPos1, ypointPos1, xpointPos2, ypointPos2).intersectsLine(l.xpointPos1,l.ypointPos1,l.xpointPos2,l.ypointPos2);
     }
     
+    /**
+     * Función que calcula la función de la recta.
+     * Se retorna un arreglo con elementos tipo double que indican la pendiente de la recta y el "Corte de intersección con el eje y"
+     */
+    
+    public double[] calculateFunction(){
+        double[] funcion = new double[2];
+        funcion[0] = (ypointPos2 - ypointPos1) / (xpointPos2 - xpointPos1);
+        funcion[1] = ypointPos2 - funcion[0] * xpointPos2;
+        return funcion;
+    }
+    
+    public float getX1(){
+        return xpointPos1;
+    }
+    
+    public float getX2(){
+        return xpointPos2;
+    }
+    
+    public float getY1(){
+        return ypointPos1;
+    }
+    
+    public float getY2(){
+        return ypointPos2;
+    }
 }

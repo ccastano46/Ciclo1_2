@@ -122,5 +122,19 @@ public class Polygon{
         }
     }
     
+    /**
+     * Metodo que verifica si una recta se encuentra dentro de la figura Polygon
+     * @param linea, recta que va a ser analizada 
+     */
+    
+    public boolean contains(Line linea){
+        float[] vector = {linea.getX2() - linea.getX1(), linea.getY2() - linea.getY1()};
+        boolean isContained = false;
+        for(int i = 1; i <= 50; i++){
+            isContained = contains((double) vector[0] * i/50 + linea.getX1(), (double) vector[1] * i/50 + linea.getY1());
+            if(!isContained) break;
+        }
+        return isContained;
+    }
     
 }

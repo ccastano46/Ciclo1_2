@@ -1,6 +1,7 @@
     import javax.swing.JOptionPane;
 import java.util.*;
 import java.awt.Point;
+import java.util.ArrayList; 
 /**
  * Una habitacion que se puede manipular y se dibuja a si mismo en Canvas.
  * @Camargo - Castaño
@@ -210,59 +211,60 @@ public class Room
         return guard.getDistanciaRecorrida();
     }
     
-    /**
-     * Prueba para sacar el area visible
-     */
-    public Polygon createAreaVisibleSculpture(){
-        int[] sculptureLocation = getSculptureLocation();
-        ArrayList<int[]> posVert = new ArrayList<int[]>();
-        Line lineaAVertice;
-        Line lineaAux;
-        representacion.makeInvisible();
-        int cont = 0;
-        for(int i = 0; i < vertices[1].length; i++){
-            
-            if(vertices[0][i] < sculptureLocation[0]){
-                lineaAVertice = new Line(vertices[0][i],vertices[1][i],1001,puntoYDeLaEcuacionDeUnaRecta(sculptureLocation[0],sculptureLocation[1],vertices[0][i],vertices[1][i],1001));
-            }else{
-                lineaAVertice = new Line(vertices[0][i],vertices[1][i],-1,puntoYDeLaEcuacionDeUnaRecta(sculptureLocation[0],sculptureLocation[1],vertices[0][i],vertices[1][i],-1));
-                
-            }
-            
-            cont = 0;
-            for(int j = 0; j < vertices[1].length; j++){
-                if(j==vertices[1].length-1){
-                    lineaAux= new  Line(vertices[0][j],vertices[1][j],vertices[0][0],vertices[1][0]);
-                }else{
-                    lineaAux= new  Line(vertices[0][j],vertices[1][j],vertices[0][j+1],vertices[1][j+1]);
-                }
-                if(lineaAVertice.intersectsLine(lineaAux)){
-                    System.out.println(vertices[0][i]+","+vertices[1][i]);
-                    cont+=1;
-                }
-                lineaAux.makeVisible();
-            }
-            
-            if(cont < 4){
-                if(vertices[0][i] < sculptureLocation[0]){
-                    lineaAVertice = new Line(sculptureLocation[0],sculptureLocation[1],-1,puntoYDeLaEcuacionDeUnaRecta(sculptureLocation[0],sculptureLocation[1],vertices[0][i],vertices[1][i],-1));
-                }else{
-                    lineaAVertice = new Line(sculptureLocation[0],sculptureLocation[1],1001,puntoYDeLaEcuacionDeUnaRecta(sculptureLocation[0],sculptureLocation[1],vertices[0][i],vertices[1][i],1001));
-                }
-                lineaAVertice.makeVisible();
+    private Line[] visibleLines(){
+        ArrayList<Line> lineasVisibles = new ArrayList<Line>();
+        for (int i = 0; i < vertices[0].length; i++){
+            if (guardIsWatching(vertices[0][i], vertices[1][i], getSculptureLocation()[0],getSculptureLocation()[1])){
+                lineasVisibles.add(new Line(getSculptureLocation()[0],getSculptureLocation()[1],vertices[0][i],vertices[1][i]));
             }
         }
-        
-        return null;
+        Line[] lineas = new Line[lineasVisibles.size()];
+       lineas = lineasVisibles.toArray(lineas);
+       for (int i = 0; i < lineas.length; i++){
+           lineas[i].makeVisible();
+       }
+       return lineas;
     }
     
-    private float puntoYDeLaEcuacionDeUnaRecta(int x1,int y1,int x2,int y2,int Xpunto){
-        float y = y2-y1;
-        float x =x2-x1;
-        if(x == 0){
-            return 0;
+   private Line[] vertixesWatchingGuard(){
+        ArrayList<Line> lineasVisibles = new ArrayList<Line>();
+        for (int i = 0; i < vertices[0].length; i++){
+            if (guardIsWatching(vertices[0][i], vertices[1][i], getGuardLocation()[0],getGuardLocation()[1])){
+                lineasVisibles.add(new Line(getGuardLocation()[0],getGuardLocation()[1],vertices[0][i],vertices[1][i]));
+            }
         }
-        return (y/x)*Xpunto-((y/x)*x1) + y1;
+        Line[] lineas = new Line[lineasVisibles.size()];
+       lineas = lineasVisibles.toArray(lineas);
+       for (int i = 0; i < lineas.length; i++){
+           lineas[i].makeVisible();
+       }
+       return lineas;
+    }
+    
+    public double[][] puntosDeInteres(){
+        Line[] lineasDeEscultura = visibleLines();
+        Line[] lineasDeGuardia = vertixesWatchingGuard();
+        double[] funcion = new double[2];
+        double pendiente;
+        double b;
+        double xInt;
+        double yInt;
+        ArrayList<double[]> puntosDeInterseccion = new ArrayList<double[]>();
+        for(Line linea : lineasDeEscultura){
+            funcion = linea.calculateFunction();
+            for(Line linea2 : lineasDeGuardia){
+                pendiente = (double) -1/funcion[0];
+                b = (double)(linea2.getY2() - pendiente*linea2.getX2());
+                xInt = (double) (funcion[1]- b)/(-funcion[0] + pendiente);
+                yInt = (double) (-funcion[0] * b +pendiente * funcion[1]) / (-funcion[0] + pendiente);
+                if(representacion.contains(new Line(linea2.getX2(), linea2.getY2(), (float) xInt, (float)yInt))){
+                    puntosDeInterseccion.add(new double[] {xInt,yInt});
+                }
+            }
+        }
+        double[][] puntosDeInteres = new double[puntosDeInterseccion.size()][2];
+        puntosDeInteres = puntosDeInterseccion.toArray(puntosDeInteres);
+        return puntosDeInteres;
     }
 }
 
