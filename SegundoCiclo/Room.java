@@ -212,7 +212,7 @@ public class Room
         return guard.getDistanciaRecorrida();
     }
     
-    public Line[] visibleLines(){
+    private Line[] visibleLines(){
         ArrayList<Line> lineasVisibles = new ArrayList<Line>();
         for (int i = 0; i < vertices[0].length; i++){
             if (guardIsWatching(vertices[0][i], vertices[1][i], getSculptureLocation()[0],getSculptureLocation()[1])){
@@ -221,13 +221,10 @@ public class Room
         }
         Line[] lineas = new Line[lineasVisibles.size()];
        lineas = lineasVisibles.toArray(lineas);
-       for (int i = 0; i < lineas.length; i++){
-           lineas[i].makeVisible();
-       }
        return lineas;
     }
     
-   public Line[] vertixesWatchingGuard(){
+   private Line[] vertixesWatchingGuard(){
         ArrayList<Line> lineasVisibles = new ArrayList<Line>();
         for (int i = 0; i < vertices[0].length; i++){
             if (guardIsWatching(vertices[0][i], vertices[1][i], getGuardLocation()[0],getGuardLocation()[1])){
@@ -236,13 +233,10 @@ public class Room
         }
         Line[] lineas = new Line[lineasVisibles.size()];
        lineas = lineasVisibles.toArray(lineas);
-       for (int i = 0; i < lineas.length; i++){
-           lineas[i].makeVisible();
-       }
        return lineas;
     }
     
-    public Line[] puntosDeInteres(){
+    private Line[] puntosDeInteres(){
         Line[] lineasDeEscultura = visibleLines();
         Line[] lineasDeGuardia = vertixesWatchingGuard();
         double[] funcion = new double[2];
@@ -269,32 +263,52 @@ public class Room
     }
     
     public float shortestDistance(){
-        int numNodos = visibleLines().length + vertixesWatchingGuard().length + puntosDeInteres().length + 1;
+        int numNodos = vertixesWatchingGuard().length + puntosDeInteres().length + 1;
         ArrayList<double[]> nodos = new ArrayList<double[]>();
-        ArrayList<Line> conexiones = new ArrayList<Line>();
+        HashMap<double[][], float[]> weight = new HashMap<double[][], float[]>();
+        float[][] costos = new float[numNodos][numNodos];
+        double[][] nuevaRelacion = new double[2][2];
         nodos.add(new double[] {vertixesWatchingGuard()[0].getX1(), vertixesWatchingGuard()[0].getY1()});
-        for(Line linea : visibleLines()){
-            nodos.add(new double[] {linea.getX2(), visibleLines()[0].getY2()});
-            conexiones.add(linea);
-        }
         for(Line linea : vertixesWatchingGuard()){
-            nodos.add(new double[] {linea.getX2(), visibleLines()[0].getY2()});
-            conexiones.add(linea);
+            nodos.add(new double[] {linea.getX2(), linea.getY2()});
+            weight.put( new double[][] {{linea.getX1(),linea.getY1()},{linea.getX2(),linea.getY2()}},new float[] {linea.longitud()});
+            weight.put( new double[][] {{linea.getX2(),linea.getY2()},{linea.getX1(),linea.getY1()}},new float[] {linea.longitud()});
         }
          for(Line linea : puntosDeInteres()){
-            nodos.add(new double[] {linea.getX2(), visibleLines()[0].getY2()});
-            conexiones.add(linea);
-        }
-        for(double[] nodo : nodos){
-            for(Line linea : conexiones){
-                if(linea.contains(nodo[0], nodo[1])){
-                    
-                }
-            }
+            nodos.add(new double[] {linea.getX2(), linea.getY2()});
+            weight.put( new double[][] {{linea.getX1(),linea.getY1()},{linea.getX2(),linea.getY2()}},new float[] {linea.longitud()});
+            weight.put( new double[][] {{linea.getX2(),linea.getY2()},{linea.getX1(),linea.getY1()}},new float[] {linea.longitud()});
         }
         System.out.println(nodos.size());
+        System.out.println("-----------Nodos-----------");
+        for(double[] nodo : nodos){
+            System.out.println(nodo[0] + " " + nodo[1]);
+            System.out.println(nodos.contains(nodo));
+        }
+        System.out.println("------------------------Relaciones------------------");
+        for (double[][] relacion : weight.keySet()){
+            System.out.println(relacion[0][0] + " " + relacion[0][1] + "---->" + relacion[1][0] + " " + relacion[1][1]);
+        }
+        for(double[][] relacion: weight.keySet()){
+            for(double[] nodo : nodos){
+                if(Arrays.equals(nodo,relacion[0])){
+                    for(double[] nodo1 : nodos){
+                        if(Arrays.equals(nodo1,relacion[1])){
+                            costos[nodos.indexOf(nodo)][nodos.indexOf(nodo1)] = weight.get(relacion)[0];
+                        }
+                    }
+                }
+            }
+            
+        }
+        System.out.println("---------------------costos------------------");
+        for(int i = 0; i < numNodos; i++){
+            for(int j = 0; j < numNodos; j++){
+                if(costos[i][j] == 0.0 && i != j) costos[i][j] = 500000000;
+                System.out.println(i + ", " + j + ": " + costos[i][j]);
+            }
+        }
         return 0;
-
     }
 }
     

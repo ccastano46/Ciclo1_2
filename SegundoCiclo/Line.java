@@ -108,7 +108,4 @@ public class Line{
         return (float) Math.sqrt(Math.pow(xpointPos2 - xpointPos1,2) + Math.pow(ypointPos2 - ypointPos1,2));
     }
     
-    public boolean contains(double xPoint,double yPoint){
-        return (xPoint == xpointPos1 || xPoint == xpointPos2) && (yPoint == ypointPos1 || yPoint == ypointPos2);
-    }
 }
