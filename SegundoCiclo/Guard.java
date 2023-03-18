@@ -14,6 +14,7 @@ public class Guard
     private Rectangle representacion;
     private Line recorrido;
     private float distanciaRecorrida;
+    private boolean firstMove = true;
     
     /**
      * Constructor del guardia
@@ -48,7 +49,11 @@ public class Guard
      * Metodo que ubica al guardia en alguna parte de la habitación y retorna la distancia recorrida por el guardía para llegar a esa posición
      */
     public void setPos(int xPos, int yPos){
-        distanciaRecorrida += (float) Math.sqrt(Math.pow(xPos - this.xPos,2) + Math.pow(yPos - this.yPos,2));
+        if(firstMove){
+            firstMove = false;
+        }else{
+            distanciaRecorrida += (float) Math.sqrt(Math.pow(xPos - this.xPos,2) + Math.pow(yPos - this.yPos,2));
+        }
         recorrido=null;
         recorrido= new Line(this.xPos+6/2,this.yPos+6/2,xPos+6/2,yPos+6/2);
         this.xPos=xPos;

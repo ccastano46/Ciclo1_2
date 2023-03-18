@@ -262,7 +262,7 @@ public class Room
         return puntosDeInteres;
     }
     
-    public float shortestDistance(){
+    public float[][] shortestDistance(){
         int numNodos = vertixesWatchingGuard().length + puntosDeInteres().length + 1;
         ArrayList<double[]> nodos = new ArrayList<double[]>();
         HashMap<double[][], float[]> weight = new HashMap<double[][], float[]>();
@@ -301,14 +301,17 @@ public class Room
             }
             
         }
-        System.out.println("---------------------costos------------------");
+        //System.out.println("---------------------costos------------------");
         for(int i = 0; i < numNodos; i++){
             for(int j = 0; j < numNodos; j++){
                 if(costos[i][j] == 0.0 && i != j) costos[i][j] = 500000000;
-                System.out.println(i + ", " + j + ": " + costos[i][j]);
+                //System.out.println(i + ", " + j + ":" + costos[i][j]);
             }
         }
-        return 0;
+        float[][] path = new float[][] {{0},{0}};
+        Dijkstra d = new Dijkstra(numNodos,costos);
+        d.dijkstraSolve();
+        return path;
     }
 }
     

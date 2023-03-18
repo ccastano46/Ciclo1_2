@@ -1,9 +1,11 @@
 #BlueJ class context
 comment0.target=Dijkstra
 comment0.text=\r\n\ Write\ a\ description\ of\ class\ Dijkstra\ here.\r\n\ \r\n\ @author\ (your\ name)\ \r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
-comment1.params=n\ s
-comment1.target=void\ calc(int,\ int)
-comment1.text=\r\n\ public\ Dijkstra(int\ numV,\ float[][]\ costos){\r\n\ \ \ \ \ distance\ \=\ new\ float[numV];\r\n\ \ \ \ \ cost\ \=\ costos;\r\n\ }\r\n
-comment2.params=args
-comment2.target=void\ main(java.lang.String[])
-numComments=3
+comment1.params=numV\ costos
+comment1.target=Dijkstra(int,\ float[][])
+comment2.params=n\ s
+comment2.target=void\ calc(int,\ int)
+comment3.params=
+comment3.target=void\ dijkstraSolve()
+comment3.text=\r\n\ public\ static\ void\ main(String\ args[])\r\n\ {\r\n\ \ int\ nodes,source,i,j;\r\n\ \ Scanner\ in\ \=\ new\ Scanner(System.in);\r\n\ \ System.out.println("Enter\ the\ Number\ of\ Nodes\ \\n");\r\n\ \ nodes\ \=\ in.nextInt();\r\n\ \ Dijkstra\ d\ \=\ new\ Dijkstra();\r\n\ \ System.out.println("Enter\ the\ Cost\ Matrix\ Weights\:\ \\n");\r\n\ \ \ \ \ \ \ \ for(i\=0;i<nodes;i++)\r\n\ \ \ \ \ \ \ \ \ \ for(j\=1;j<\=nodes;j++){\r\n\ \ \ \ \ \ \ \ \ \ \ \ d.cost[i][j]\=in.nextInt();\r\n\ \ \ \ \ \ \ \ \ \ \ \ if(d.cost[i][j]\=\=0)\r\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ d.cost[i][j]\=500000000;\r\n\ \ \ \ \ \ \ \ \ \ }\r\n\ \ System.out.println("Enter\ the\ Source\ Vertex\ \:\\n");\r\n\ \ source\=in.nextInt();\r\n\ \ \r\n\ \ d.calc(nodes,\ source);\r\n\ \ System.out.println("The\ Shortest\ Path\ from\ Source\ \\t"+source+"\\t\ to\ all\ other\ vertices\ are\ \:\ \\n");\r\n\ \ \ \ \ \ \ \ for(i\=0;i<nodes;i++)\r\n\ \ \ \ \ \ \ \ \ \ if(i\!\=source)\r\n\ \ System.out.println("source\ \:"+source+"\\t\ destination\ \:"+i+"\\t\ MinCost\ is\ \:"+d.distance[i]+"\\t");\r\n\ \ \ \ \ \ \ \ \r\n\ \ \r\n\ }\r\n
+numComments=4

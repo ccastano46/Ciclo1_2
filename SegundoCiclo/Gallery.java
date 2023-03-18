@@ -38,9 +38,9 @@ public class Gallery
     */
    
    public Gallery(int[][] polygon, int[] guard, int[] sculpture){
-       Canvas.getCanvas(808, 808);
-       this.length = 800;
-       this.width = 800;
+       this.length = 1000;
+       this.width = 1000;
+       Canvas.getCanvas(width + 8, length + 8);
        rooms = new HashMap<String, Room>();
        buildRoom("black", polygon);
        displaySculpture("black", sculpture[0], sculpture[1]);
@@ -308,7 +308,10 @@ public class Gallery
     public boolean ok(){
         return proceso;
     }
+    
+    public float[][] solveProblem(){
+        return rooms.get("black").shortestDistance();
+    }
 
    
-
 }
