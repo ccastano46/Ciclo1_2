@@ -1,10 +1,4 @@
 #BlueJ class context
 comment0.target=GalleryContest
 comment0.text=\r\n\ Write\ a\ description\ of\ class\ GalleryContest\ here.\r\n\ \r\n\ @author\ (your\ name)\ \r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
-comment1.params=
-comment1.target=GalleryContest()
-comment2.params=polygon\ guard\ sculpture
-comment2.target=float\ solve(int[][],\ int[],\ int[])
-comment3.params=polygon\ guard\ sculpture
-comment3.target=void\ simulate(int[][],\ int[],\ int[])
-numComments=4
+numComments=1

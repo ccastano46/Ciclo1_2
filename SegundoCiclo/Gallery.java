@@ -308,10 +308,10 @@ public class Gallery
     public boolean ok(){
         return proceso;
     }
-    
+    /**
     public float[][] solveProblem(){
         return rooms.get("black").shortestDistance();
     }
-
+    */
    
 }

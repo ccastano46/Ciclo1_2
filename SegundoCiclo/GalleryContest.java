@@ -7,6 +7,7 @@
  */
 public class GalleryContest
 {
+    /**
     public GalleryContest(){}
     
     public float solve(int[][] polygon,int[] guard,int[] sculpture){
@@ -23,4 +24,5 @@ public class GalleryContest
         //mover el guardia en el cuarto (for...)
         
     }
+    */
 }

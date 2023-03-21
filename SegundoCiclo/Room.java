@@ -262,56 +262,26 @@ public class Room
         return puntosDeInteres;
     }
     
-    public float[][] shortestDistance(){
+    public float shortestDistance(){
         int numNodos = vertixesWatchingGuard().length + puntosDeInteres().length + 1;
-        ArrayList<double[]> nodos = new ArrayList<double[]>();
-        HashMap<double[][], float[]> weight = new HashMap<double[][], float[]>();
-        float[][] costos = new float[numNodos][numNodos];
-        double[][] nuevaRelacion = new double[2][2];
-        nodos.add(new double[] {vertixesWatchingGuard()[0].getX1(), vertixesWatchingGuard()[0].getY1()});
+        int[] origen = getGuardLocation();
+        ArrayList<double[]> destinos1 = new ArrayList<double[]>();
+        ArrayList<double[]> destinos2 = new ArrayList<double[]>();
         for(Line linea : vertixesWatchingGuard()){
-            nodos.add(new double[] {linea.getX2(), linea.getY2()});
-            weight.put( new double[][] {{linea.getX1(),linea.getY1()},{linea.getX2(),linea.getY2()}},new float[] {linea.longitud()});
-            weight.put( new double[][] {{linea.getX2(),linea.getY2()},{linea.getX1(),linea.getY1()}},new float[] {linea.longitud()});
+            destinos1.add(new double[] {linea.getX2(),linea.getY2()});
         }
-         for(Line linea : puntosDeInteres()){
-            nodos.add(new double[] {linea.getX2(), linea.getY2()});
-            weight.put( new double[][] {{linea.getX1(),linea.getY1()},{linea.getX2(),linea.getY2()}},new float[] {linea.longitud()});
-            weight.put( new double[][] {{linea.getX2(),linea.getY2()},{linea.getX1(),linea.getY1()}},new float[] {linea.longitud()});
+        for(Line linea : puntosDeInteres()){
+            destinos2.add(new double[] {linea.getX2(),linea.getY2()});
         }
-        System.out.println(nodos.size());
-        System.out.println("-----------Nodos-----------");
-        for(double[] nodo : nodos){
-            System.out.println(nodo[0] + " " + nodo[1]);
-            System.out.println(nodos.contains(nodo));
-        }
-        System.out.println("------------------------Relaciones------------------");
-        for (double[][] relacion : weight.keySet()){
-            System.out.println(relacion[0][0] + " " + relacion[0][1] + "---->" + relacion[1][0] + " " + relacion[1][1]);
-        }
-        for(double[][] relacion: weight.keySet()){
-            for(double[] nodo : nodos){
-                if(Arrays.equals(nodo,relacion[0])){
-                    for(double[] nodo1 : nodos){
-                        if(Arrays.equals(nodo1,relacion[1])){
-                            costos[nodos.indexOf(nodo)][nodos.indexOf(nodo1)] = weight.get(relacion)[0];
-                        }
-                    }
-                }
-            }
-            
-        }
-        //System.out.println("---------------------costos------------------");
-        for(int i = 0; i < numNodos; i++){
-            for(int j = 0; j < numNodos; j++){
-                if(costos[i][j] == 0.0 && i != j) costos[i][j] = 500000000;
-                //System.out.println(i + ", " + j + ":" + costos[i][j]);
+        float camino;
+        float minimo = 500000000;
+        for(double[] punto1 : destinos1){
+            for(double[] punto2 : destinos2){
+                camino = new Line(origen[0], origen[1], punto1[0], punto1[1]).longitud() + new Line(punto1[0], punto1[1], punto2[0], punto2[1]).longitud();
+                if(camino < minimo) minimo = camino;
             }
         }
-        float[][] path = new float[][] {{0},{0}};
-        Dijkstra d = new Dijkstra(numNodos,costos);
-        d.dijkstraSolve();
-        return path;
+        return minimo;
     }
 }
     
