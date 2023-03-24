@@ -176,7 +176,7 @@ public class Room
      * @param sculptureY, posición y de la escultura.
      */
     public boolean guardIsWatching(int guardX, int guardY, int sculptureX, int sculptureY){
-        double[] vector = {(sculptureX + 3) - guardX, sculptureY - 3 - guardY};
+        double[] vector = {(sculptureX + 0.5) - guardX, sculptureY - 0.5 - guardY};
         boolean isContained = false;
         boolean veElCentro = true;
         // Se analiza si el guardia esta viendo el centro de la escultura
@@ -189,7 +189,7 @@ public class Room
         }
         // Si el guardia esta viendo el centro, se trata de ver si ve almenos alguna de las dos mitades.
         if(isContained){
-            vector[0] = (sculptureX + 6) - guardX;
+            vector[0] = (sculptureX + 1) - guardX;
             for (int i = 1; i<= 50; i++){
                 isContained = representacion.contains((double) vector[0] * i/50 + guardX, (double) vector[1] * i/50 + guardY);
                 if(!isContained) break;
@@ -212,7 +212,7 @@ public class Room
         return guard.getDistanciaRecorrida();
     }
     
-    private Line[] visibleLines(){
+    public Line[] visibleLines(){
         ArrayList<Line> lineasVisibles = new ArrayList<Line>();
         for (int i = 0; i < vertices[0].length; i++){
             if (guardIsWatching(vertices[0][i], vertices[1][i], getSculptureLocation()[0],getSculptureLocation()[1])){
@@ -224,7 +224,7 @@ public class Room
        return lineas;
     }
     
-   private Line[] vertixesWatchingGuard(){
+   public Line[] vertixesWatchingGuard(){
         ArrayList<Line> lineasVisibles = new ArrayList<Line>();
         for (int i = 0; i < vertices[0].length; i++){
             if (guardIsWatching(vertices[0][i], vertices[1][i], getGuardLocation()[0],getGuardLocation()[1])){
@@ -236,7 +236,7 @@ public class Room
        return lineas;
     }
     
-    private Line[] puntosDeInteres(){
+    public Line[] puntosDeInteres(){
         Line[] lineasDeEscultura = visibleLines();
         Line[] lineasDeGuardia = vertixesWatchingGuard();
         double[] funcion = new double[2];
