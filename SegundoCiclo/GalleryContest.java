@@ -1,28 +1,20 @@
 
 /**
- * Write a description of class GalleryContest here.
+ * Clase creada para solucionar el problema D
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * Camargo - Castaño
+ * @version (25 de marzo del 2023)
  */
 public class GalleryContest
 {
     /**
-    public GalleryContest(){}
-    
-    public float solve(int[][] polygon,int[] guard,int[] sculpture){
-        Gallery galleryContest = new Gallery(polygon,guard,sculpture);
-        galleryContest.solveProblem();
-        //Creo que solve problem deberia retornar los movimientos del guardia
-        //mover el guardia en el cuarto (for...)
-        return galleryContest.distanceTraveled("black");
+     * Función que indica la distancia más corta para que el guardia vea a la escultura.
+     * @param polygon, matriz n x 2, que contiene las cordenadas de los vertices del poligono que conforma el cuarto.
+     * @param guard, arreglo de dos dimensiones que contiene las posiciones x y y del guardia.
+     * @param sculpture, arreglo de dos dimensiones que contiene las posiciones x y y de la escultura para la habitación.
+     */
+    public float solve(int[][] polygon, int[] guard, int[] sculpture){
+        Gallery galeria = new Gallery(polygon, guard, sculpture);
+        return galeria.shortestDistance("black");
     }
-    
-    public void simulate(int[][] polygon,int[] guard,int[] sculpture){
-        Gallery galleryContest = new Gallery(polygon,guard,sculpture);
-        galleryContest.solveProblem();
-        //mover el guardia en el cuarto (for...)
-        
-    }
-    */
 }

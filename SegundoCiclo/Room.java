@@ -212,7 +212,12 @@ public class Room
         return guard.getDistanciaRecorrida();
     }
     
-    public Line[] visibleLines(){
+    /**
+     * Función para identificar los vertices del poligono que ven a la escultura.
+     * @return lista de todas las lineas desde la escultura a los vertices que la ven.
+     */
+    
+    private Line[] visibleLines(){
         ArrayList<Line> lineasVisibles = new ArrayList<Line>();
         for (int i = 0; i < vertices[0].length; i++){
             if (guardIsWatching(vertices[0][i], vertices[1][i], getSculptureLocation()[0],getSculptureLocation()[1])){
@@ -224,7 +229,11 @@ public class Room
        return lineas;
     }
     
-   public Line[] vertixesWatchingGuard(){
+    /**
+     * Función para identificar los vertices del poligono que ven al guardia.
+     * @return lista de todas las lineas desde el guardia a los vertices que lo ven.
+     */
+   private Line[] vertixesWatchingGuard(){
         ArrayList<Line> lineasVisibles = new ArrayList<Line>();
         for (int i = 0; i < vertices[0].length; i++){
             if (guardIsWatching(vertices[0][i], vertices[1][i], getGuardLocation()[0],getGuardLocation()[1])){
@@ -236,7 +245,13 @@ public class Room
        return lineas;
     }
     
-    public Line[] puntosDeInteres(){
+    /**
+     * Función para identificar los puntos de intersección entre las lineas de visión de la escultura y su recta perpendicular desde cada uno de 
+     los vertices que ve al guardia.
+     * @return lista de todas las lineas desde los vertices que ven al guardia hasta los puntos de intersección en la linea de visión.
+     */
+    
+    private Line[] puntosDeInteres(){
         Line[] lineasDeEscultura = visibleLines();
         Line[] lineasDeGuardia = vertixesWatchingGuard();
         double[] funcion = new double[2];
@@ -261,9 +276,11 @@ public class Room
         puntosDeInteres = puntosDeInterseccion.toArray(puntosDeInteres);
         return puntosDeInteres;
     }
-    
+    /**
+     * Función para identificar la distancia más corta que debe recorrer el guardia para poder ver a la escultura.
+     * @return distancia más corta.
+     */
     public float shortestDistance(){
-        int numNodos = vertixesWatchingGuard().length + puntosDeInteres().length + 1;
         int[] origen = getGuardLocation();
         ArrayList<double[]> destinos1 = new ArrayList<double[]>();
         ArrayList<double[]> destinos2 = new ArrayList<double[]>();
@@ -275,12 +292,20 @@ public class Room
         }
         float camino;
         float minimo = 500000000;
-        for(double[] punto1 : destinos1){
-            for(double[] punto2 : destinos2){
-                camino = new Line(origen[0], origen[1], punto1[0], punto1[1]).longitud() + new Line(punto1[0], punto1[1], punto2[0], punto2[1]).longitud();
-                if(camino < minimo) minimo = camino;
+        if(guardIsWatching(getGuardLocation()[0], getGuardLocation()[1], getSculptureLocation()[0],getSculptureLocation()[1])) minimo = 0;
+        else{
+            for(double[] punto1 : destinos1){
+                camino = new Line(origen[0], origen[1], punto1[0], punto1[1]).longitud();
+                if(guardIsWatching((int) punto1[0], (int) punto1[1], getSculptureLocation()[0], getSculptureLocation()[1]) && camino < minimo) minimo = camino;
+                else{
+                    for(double[] punto2 : destinos2){
+                        camino = new Line(origen[0], origen[1], punto1[0], punto1[1]).longitud() + new Line(punto1[0], punto1[1], punto2[0], punto2[1]).longitud();
+                        if(camino < minimo) minimo = camino;
+                    }
+                }
             }
         }
+            
         return minimo;
     }
 }

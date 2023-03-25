@@ -1,4 +1,7 @@
 #BlueJ class context
 comment0.target=GalleryContest
-comment0.text=\r\n\ Write\ a\ description\ of\ class\ GalleryContest\ here.\r\n\ \r\n\ @author\ (your\ name)\ \r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
-numComments=1
+comment0.text=\r\n\ Clase\ creada\ para\ solucionar\ el\ problema\ D\r\n\ \r\n\ Camargo\ -\ Casta\u00F1o\r\n\ @version\ (25\ de\ marzo\ del\ 2023)\r\n
+comment1.params=polygon\ guard\ sculpture
+comment1.target=float\ solve(int[][],\ int[],\ int[])
+comment1.text=\r\n\ Funci\u00F3n\ que\ indica\ la\ distancia\ m\u00E1s\ corta\ para\ que\ el\ guardia\ vea\ a\ la\ escultura.\r\n\ @param\ polygon,\ matriz\ n\ x\ 2,\ que\ contiene\ las\ cordenadas\ de\ los\ vertices\ del\ poligono\ que\ conforma\ el\ cuarto.\r\n\ @param\ guard,\ arreglo\ de\ dos\ dimensiones\ que\ contiene\ las\ posiciones\ x\ y\ y\ del\ guardia.\r\n\ @param\ sculpture,\ arreglo\ de\ dos\ dimensiones\ que\ contiene\ las\ posiciones\ x\ y\ y\ de\ la\ escultura\ para\ la\ habitaci\u00F3n.\r\n
+numComments=2
