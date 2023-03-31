@@ -213,15 +213,21 @@ public class Room
     }
     
     /**
-     * Función para identificar los vertices del poligono que ven a la escultura.
-     * @return lista de todas las lineas desde la escultura a los vertices que la ven.
+     * Función para identificar los vertices del poligono que ven a la escultura o al guardia.
+     * @param objetivo, elemento del cuarto del cual se desea realizar el estudio.
+     * @return lista de todas las lineas desde la escultura/guardia a los vertices que l@ ven.
      */
-    
-    private Line[] visibleLines(){
+    private Line[] visibleLines(String objetivo){
         ArrayList<Line> lineasVisibles = new ArrayList<Line>();
+        int[] destino;
+        if(objetivo.equals("guard")){
+            destino = getGuardLocation();
+        }else{
+            destino = getSculptureLocation();
+        }
         for (int i = 0; i < vertices[0].length; i++){
-            if (guardIsWatching(vertices[0][i], vertices[1][i], getSculptureLocation()[0],getSculptureLocation()[1])){
-                lineasVisibles.add(new Line(getSculptureLocation()[0],getSculptureLocation()[1],vertices[0][i],vertices[1][i]));
+            if (guardIsWatching(vertices[0][i], vertices[1][i], destino[0],destino[1])){
+                lineasVisibles.add(new Line(destino[0],destino[1],vertices[0][i],vertices[1][i]));
             }
         }
         Line[] lineas = new Line[lineasVisibles.size()];
@@ -229,21 +235,7 @@ public class Room
        return lineas;
     }
     
-    /**
-     * Función para identificar los vertices del poligono que ven al guardia.
-     * @return lista de todas las lineas desde el guardia a los vertices que lo ven.
-     */
-   private Line[] vertixesWatchingGuard(){
-        ArrayList<Line> lineasVisibles = new ArrayList<Line>();
-        for (int i = 0; i < vertices[0].length; i++){
-            if (guardIsWatching(vertices[0][i], vertices[1][i], getGuardLocation()[0],getGuardLocation()[1])){
-                lineasVisibles.add(new Line(getGuardLocation()[0],getGuardLocation()[1],vertices[0][i],vertices[1][i]));
-            }
-        }
-        Line[] lineas = new Line[lineasVisibles.size()];
-       lineas = lineasVisibles.toArray(lineas);
-       return lineas;
-    }
+   
     
     /**
      * Función para identificar los puntos de intersección entre las lineas de visión de la escultura y su recta perpendicular desde cada uno de 
@@ -252,8 +244,8 @@ public class Room
      */
     
     private Line[] puntosDeInteres(){
-        Line[] lineasDeEscultura = visibleLines();
-        Line[] lineasDeGuardia = vertixesWatchingGuard();
+        Line[] lineasDeEscultura = visibleLines("sculpture");
+        Line[] lineasDeGuardia = visibleLines("guard");
         double[] funcion = new double[2];
         double pendiente;
         double b;
@@ -284,7 +276,7 @@ public class Room
         int[] origen = getGuardLocation();
         ArrayList<double[]> destinos1 = new ArrayList<double[]>();
         ArrayList<double[]> destinos2 = new ArrayList<double[]>();
-        for(Line linea : vertixesWatchingGuard()){
+        for(Line linea : visibleLines("guard")){
             destinos1.add(new double[] {linea.getX2(),linea.getY2()});
         }
         for(Line linea : puntosDeInteres()){
