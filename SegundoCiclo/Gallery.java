@@ -38,8 +38,8 @@ public class Gallery
     */
    
    public Gallery(int[][] polygon, int[] guard, int[] sculpture){
-       this.length = 1000;
-       this.width = 1000;
+       this.length = 800;
+       this.width = 800;
        Canvas.getCanvas(width + 8, length + 8);
        rooms = new HashMap<String, Room>();
        buildRoom("black", polygon);

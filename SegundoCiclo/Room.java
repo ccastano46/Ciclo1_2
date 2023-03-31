@@ -296,16 +296,19 @@ public class Room
         else{
             for(double[] punto1 : destinos1){
                 camino = new Line(origen[0], origen[1], punto1[0], punto1[1]).longitud();
-                if(guardIsWatching((int) punto1[0], (int) punto1[1], getSculptureLocation()[0], getSculptureLocation()[1]) && camino < minimo) minimo = camino;
+                if(guardIsWatching((int) Math.round(punto1[0]), (int) Math.round(punto1[1]), getSculptureLocation()[0], getSculptureLocation()[1]) && camino < minimo){
+                    minimo = camino;
+                }
                 else{
                     for(double[] punto2 : destinos2){
                         camino = new Line(origen[0], origen[1], punto1[0], punto1[1]).longitud() + new Line(punto1[0], punto1[1], punto2[0], punto2[1]).longitud();
-                        if(camino < minimo) minimo = camino;
+                        if(camino < minimo && guardIsWatching((int) Math.round(punto2[0]), (int) Math.round(punto2[1]), getSculptureLocation()[0], getSculptureLocation()[1])){
+                            minimo = camino;
+                        }
                     }
                 }
             }
         }
-            
         return minimo;
     }
 }
