@@ -41,6 +41,7 @@ comment20.target=boolean\ ok()
 comment20.text=\r\n\ Funci\u00F3n\ para\ saber\ si\ la\ \u00FAltima\ acci\u00F3n\ se\ realizo\ con\ exito\r\n
 comment21.params=room
 comment21.target=float\ shortestDistance(java.lang.String)
+comment21.text=\r\n\ Funci\u00F3n\ que\ calcula\ la\ distancia\ m\u00E1s\ corta\ que\ debe\ recorrer\ el\ guardia\ para\ poder\ ver\ la\ escultura\ en\ una\ habiataci\u00F3n\ en\ especifico.\r\n\ @param\ room,\ cuarto\ al\ cual\ se\ la\ va\ a\ realizar\ el\ estudio\r\n
 comment3.params=color\ polygon
 comment3.target=void\ buildRoom(java.lang.String,\ int[][])
 comment3.text=\r\n\ Metodo\ para\ crear\ un\ nuevo\ cuarto.\r\n\ @param\ color,\ color\ con\ el\ cual\ se\ va\ a\ identificar\ el\ cuarto.\r\n\ @param\ polygon,\ matriz\ n\ x\ 2,\ que\ contiene\ las\ cordenadas\ de\ los\ vertices\ del\ poligono.\r\n

@@ -309,6 +309,10 @@ public class Gallery
         return proceso;
     }
     
+    /**
+     * Función que calcula la distancia más corta que debe recorrer el guardia para poder ver la escultura en una habiatación en especifico.
+     * @param room, cuarto al cual se la va a realizar el estudio
+     */
     protected float shortestDistance(String room){
         return rooms.get(room).shortestDistance();
     }
