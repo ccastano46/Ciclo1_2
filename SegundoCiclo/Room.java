@@ -69,6 +69,7 @@ public class Room
         }
         guard = new Guard(maxX, maxY, color);
         guard.makeVisible();
+        if(sculpture.getType().equals("shy")) desaparecerShy();
     }
     
     
@@ -80,6 +81,7 @@ public class Room
     public boolean moveGuard(int xPos, int yPos){
         if (representacion.contains(xPos,yPos)){
             guard.setPos(xPos, yPos);
+            if(sculpture.getType().equals("shy")) desaparecerShy();
             return true;
         } else{
             return false;
@@ -94,7 +96,7 @@ public class Room
      */
     public boolean displaySculpture(int xPos, int yPos){
         if(representacion.contains(xPos,yPos) && !isASculpture()){
-            sculpture = new Sculpture(color, xPos, yPos);
+            sculpture = new Sculpture(color, xPos, yPos, "normal");
             sculpture.makeVisible();
             return true;
         }else{
@@ -104,7 +106,21 @@ public class Room
     }
     
     /**
-     * Metodo para prender la alarma del cuarto
+     * Metodo para hacer invisible una escultura tipo shy cuando el guardia la esta viendo
+     */
+    private void desaparecerShy(){
+        try{
+            if(guardIsWatching(getGuardLocation()[0],getGuardLocation()[1], getSculptureLocation()[0], getSculptureLocation()[1])){
+            sculpture.makeInvisible();
+            }
+        }catch(RoomException e){
+            JOptionPane.showMessageDialog(null, RoomException.SIN_ESCULTURA + " o " + RoomException.SIN_GUARDIA);
+        }
+    }
+    
+    /**
+     * Metodo para prender o apagar la alarma del cuarto
+     * @param, on parametro que indica si la alarma se prende o se apaga.
      */
     public void setAlarm(boolean on){
         if(on){
@@ -155,7 +171,8 @@ public class Room
     /**
      * Metodo que realiza el robo de la escultura dentro del cuarto
      */
-    public void steal(){
+    public void steal() throws RoomException{
+        if(sculpture.getType().equals("heavy")) throw new RoomException(RoomException.ESCULTURA_PESADA);
         sculpture.makeInvisible();
         sculpture = null;
     }
@@ -175,7 +192,9 @@ public class Room
      * @param sculptureX, posición x de la escultura.
      * @param sculptureY, posición y de la escultura.
      */
-    public boolean guardIsWatching(int guardX, int guardY, int sculptureX, int sculptureY){
+    public boolean guardIsWatching(int guardX, int guardY, int sculptureX, int sculptureY) throws RoomException{
+        if(guard == null) throw new RoomException(RoomException.SIN_GUARDIA);
+        if(sculpture == null) throw new RoomException(RoomException.SIN_ESCULTURA);
         double[] vector = {(sculptureX + 0.5) - guardX, sculptureY - 0.5 - guardY};
         boolean isContained = false;
         boolean veElCentro = true;
@@ -217,7 +236,7 @@ public class Room
      * @param objetivo, elemento del cuarto del cual se desea realizar el estudio.
      * @return lista de todas las lineas desde la escultura/guardia a los vertices que l@ ven.
      */
-    private Line[] visibleLines(String objetivo){
+    private Line[] visibleLines(String objetivo) throws RoomException{
         ArrayList<Line> lineasVisibles = new ArrayList<Line>();
         int[] destino;
         if(objetivo.equals("guard")){
@@ -243,7 +262,7 @@ public class Room
      * @return lista de todas las lineas desde los vertices que ven al guardia hasta los puntos de intersección en la linea de visión.
      */
     
-    private Line[] puntosDeInteres(){
+    private Line[] puntosDeInteres() throws RoomException{
         Line[] lineasDeEscultura = visibleLines("sculpture");
         Line[] lineasDeGuardia = visibleLines("guard");
         double[] funcion = new double[2];
@@ -273,33 +292,37 @@ public class Room
      * @return distancia más corta.
      */
     public float shortestDistance(){
-        int[] origen = getGuardLocation();
-        ArrayList<double[]> destinos1 = new ArrayList<double[]>();
-        ArrayList<double[]> destinos2 = new ArrayList<double[]>();
-        for(Line linea : visibleLines("guard")){
-            destinos1.add(new double[] {linea.getX2(),linea.getY2()});
-        }
-        for(Line linea : puntosDeInteres()){
-            destinos2.add(new double[] {linea.getX2(),linea.getY2()});
-        }
-        float camino;
         float minimo = 500000000;
-        if(guardIsWatching(getGuardLocation()[0], getGuardLocation()[1], getSculptureLocation()[0],getSculptureLocation()[1])) minimo = 0;
-        else{
-            for(double[] punto1 : destinos1){
-                camino = new Line(origen[0], origen[1], punto1[0], punto1[1]).longitud();
-                if(guardIsWatching((int) Math.round(punto1[0]), (int) Math.round(punto1[1]), getSculptureLocation()[0], getSculptureLocation()[1]) && camino < minimo){
-                    minimo = camino;
-                }
-                else{
-                    for(double[] punto2 : destinos2){
-                        camino = new Line(origen[0], origen[1], punto1[0], punto1[1]).longitud() + new Line(punto1[0], punto1[1], punto2[0], punto2[1]).longitud();
-                        if(camino < minimo && guardIsWatching((int) Math.round(punto2[0]), (int) Math.round(punto2[1]), getSculptureLocation()[0], getSculptureLocation()[1])){
-                            minimo = camino;
+        try{
+            int[] origen = getGuardLocation();
+            ArrayList<double[]> destinos1 = new ArrayList<double[]>();
+            ArrayList<double[]> destinos2 = new ArrayList<double[]>();
+            for(Line linea : visibleLines("guard")){
+                destinos1.add(new double[] {linea.getX2(),linea.getY2()});
+            }
+            for(Line linea : puntosDeInteres()){
+                destinos2.add(new double[] {linea.getX2(),linea.getY2()});
+            }
+            float camino;
+            if(guardIsWatching(getGuardLocation()[0], getGuardLocation()[1], getSculptureLocation()[0],getSculptureLocation()[1])) minimo = 0;
+            else{
+                for(double[] punto1 : destinos1){
+                    camino = new Line(origen[0], origen[1], punto1[0], punto1[1]).longitud();
+                    if(guardIsWatching((int) Math.round(punto1[0]), (int) Math.round(punto1[1]), getSculptureLocation()[0], getSculptureLocation()[1]) && camino < minimo){
+                        minimo = camino;
+                    }
+                    else{
+                        for(double[] punto2 : destinos2){
+                            camino = new Line(origen[0], origen[1], punto1[0], punto1[1]).longitud() + new Line(punto1[0], punto1[1], punto2[0], punto2[1]).longitud();
+                            if(camino < minimo && guardIsWatching((int) Math.round(punto2[0]), (int) Math.round(punto2[1]), getSculptureLocation()[0], getSculptureLocation()[1])){
+                                minimo = camino;
+                            }
                         }
                     }
                 }
             }
+        }catch(RoomException e){
+            JOptionPane.showMessageDialog(null, RoomException.SIN_ESCULTURA + " o " + RoomException.SIN_GUARDIA);
         }
         return minimo;
     }

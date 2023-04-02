@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.target=Unprotected
+comment0.text=\r\n\ Habitaci\u00F3n\ que\ no\ tiene\ escultura\r\n\ \r\n\ @author\ (Casta\u00F1o\ -\ Camargo)\ \r\n\ @version\ (2/04/2023)\r\n
+comment1.params=color\ polygon
+comment1.target=Unprotected(java.lang.String,\ int[][])
+comment1.text=\r\n\ Constructor\ del\ cuarto\ standby\r\n\ @param\ color,\ color\ con\ el\ cual\ se\ va\ a\ identificar\ el\ cuarto\r\n\ @param\ polygon,\ vertices\ que\ componen\ el\ poligono\ del\ cuarto\r\n
+comment2.params=on
+comment2.target=void\ setAlarm(boolean)
+comment2.text=\r\n\ Sobre\ escritura\ del\ metodo\ setAlarm\ de\ Room.\r\n\ @param\ on,\ parametro\ que\ indica\ si\ la\ alarma\ se\ prende\ o\ se\ apaga.\ Sin\ embargo,\ como\ este\ tipo\ de\ habiataci\u00F3n\ no\ tiene\ alarma,\ siempre\ su\ \r\n\ valor\ va\ a\ ser\ falso.\r\n
+numComments=3

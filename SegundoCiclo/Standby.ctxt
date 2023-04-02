@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.target=Standby
+comment0.text=\r\n\ Habitaci\u00F3n\ que\ no\ tiene\ una\ escultura\r\n\ \r\n\ @author\ Camargo-Casta\u00F1o\r\n\ @version\ 2/04/2023\r\n
+comment1.params=color\ polygon
+comment1.target=Standby(java.lang.String,\ int[][])
+comment1.text=\r\n\ Constructor\ del\ cuarto\ standby\r\n\ @param\ color,\ color\ con\ el\ cual\ se\ va\ a\ identificar\ el\ cuarto\r\n\ @param\ polygon,\ vertices\ que\ componen\ el\ poligono\ del\ cuarto\r\n
+comment2.params=xPos\ yPos
+comment2.target=boolean\ displaySculpture(int,\ int)
+comment2.text=\r\n\ Sobre\ escritrura\ del\ metodo\ displaySculpture\ ya\ que,\ en\ este\ tipo\ de\ habitaci\u00F3n\ no\ tiene\ escultura.\r\n\ @param\ xPos,\ posici\u00F3n\ x\ del\ cuarto\r\n\ @param\ yPos,\ posicion\ y\ del\ cuarto\r\n
+numComments=3

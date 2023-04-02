@@ -215,11 +215,15 @@ public class Gallery
     public void steal(){
         proceso = false;
         for (String room : rooms.keySet()){
-            if(sculptureIsPresent(room) && !guardIsWatching(room)){
-                rooms.get(room).steal();
-                alarm(room, true);
-                proceso = true;
-                break;
+            try{
+                if(sculptureIsPresent(room) && !guardIsWatching(room)){
+                    rooms.get(room).steal();
+                    alarm(room, true);
+                    proceso = true;
+                    break;
+                }
+            }catch(RoomException e){
+                System.out.println(room +": " + RoomException.ESCULTURA_PESADA + ". Se va a intentar con otra");
             }
         }
     }
@@ -230,12 +234,17 @@ public class Gallery
      */
     
     public boolean guardIsWatching(String room){
-        if(rooms.containsKey(room)){
-            return rooms.get(room).guardIsWatching(guardLocation(room)[0], Math.abs(guardLocation(room)[1] - length), sculptureLocation(room)[0],Math.abs(sculptureLocation(room)[1] - length) );
-        } else{
-            JOptionPane.showMessageDialog(null, "El cuarto indicado no existe");
-            return false;
-        }
+            try{
+                if(rooms.containsKey(room)){
+                    return rooms.get(room).guardIsWatching(guardLocation(room)[0], Math.abs(guardLocation(room)[1] - length), sculptureLocation(room)[0],Math.abs(sculptureLocation(room)[1] - length) );
+                } else{
+                    JOptionPane.showMessageDialog(null, "El cuarto indicado no existe");
+                    return false;
+                }
+            }catch(RoomException e){
+                JOptionPane.showMessageDialog(null, RoomException.SIN_ESCULTURA + " o " + RoomException.SIN_GUARDIA);
+                return false;
+            }
     }
     
     
