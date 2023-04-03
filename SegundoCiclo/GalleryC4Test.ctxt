@@ -1,0 +1,14 @@
+#BlueJ class context
+comment0.target=GalleryC4Test
+comment0.text=\r\n\ The\ test\ class\ GalleryTest.\r\n
+comment1.params=
+comment1.target=void\ shouldNotStealHeavy()
+comment2.params=
+comment2.target=void\ MagicalcouldBeOutside()
+comment3.params=
+comment3.target=void\ shouldDisappear()
+comment4.params=
+comment4.target=void\ standbyShouldNotHaveSculpture()
+comment5.params=
+comment5.target=void\ shouldNotHaveAlarm()
+numComments=6

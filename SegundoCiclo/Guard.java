@@ -47,6 +47,8 @@ public class Guard
     
     /**
      * Metodo que ubica al guardia en alguna parte de la habitación y retorna la distancia recorrida por el guardía para llegar a esa posición
+     * @param xPos, posición horizontal a la cual se quiere mover al guardia.
+     * @páram yPos, posición vertical a la cual se quiere mover al guardia
      */
     public void setPos(int xPos, int yPos){
         if(firstMove){

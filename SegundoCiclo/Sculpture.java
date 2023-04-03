@@ -12,6 +12,7 @@ public class Sculpture
     private int yPosition;
     private Circle representacion;
     private String type;
+    private boolean visible;
     
 
     /**
@@ -19,6 +20,7 @@ public class Sculpture
      * @param color con el cual se va a representar la escultura.
      * @param xPosInicial, posición x (latitud) inicial de la escultura.
      * @param yPosInicial, posición y (longitud) inicial de la escultura.
+     * @param tipo, tipo de escultura que se desea crear.
      */
     public Sculpture(String color, int xPosInicial, int yPosInicial, String tipo)
     {
@@ -27,7 +29,7 @@ public class Sculpture
         yPosition = yPosInicial;
         representacion = new Circle((short)6, xPosition, yPosition, color);
         setType(tipo);
-        
+        visible = false;
     }
     
     /**
@@ -47,7 +49,7 @@ public class Sculpture
         xPosition = x;
         yPosition = y;
         representacion.locate(x,y);
-        
+
     }
     
     /**
@@ -60,7 +62,7 @@ public class Sculpture
     
     /**
      * Metodo que asigna el tipo de escultura
-     * @param tipo de la escultura
+     * @param tipo de la escultura ("normal", "shy" o "heavy"). El tipo por defecto es normal
      */
     
     private void setType(String tipo){
@@ -72,15 +74,24 @@ public class Sculpture
      * Función que indica el tipo de la escultura
      */
     
-    public String getType(){
+    public String getType() throws RoomException{
+        if(this == null) throw new RoomException(RoomException.SIN_ESCULTURA);
         return type;
+    }
+    /**
+     * Función que indica si la escultura aparece o no en el canvas.
+     */
+    public boolean isVisible(){
+        return visible;
     }
     
     public void makeVisible(){
         representacion.makeVisible();
+        visible = true;
     }
     
     public void makeInvisible(){
         representacion.makeInvisible();
+        visible = false;
     }
 }

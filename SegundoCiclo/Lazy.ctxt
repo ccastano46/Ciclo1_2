@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.target=Lazy
+comment0.text=\r\n\ Write\ a\ description\ of\ class\ Lazy\ here.\r\n\ \r\n\ @author\ (your\ name)\ \r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment1.params=xPos\ yPos\ color
+comment1.target=Lazy(int,\ int,\ java.lang.String)
+comment1.text=\r\n\ Constructor\ del\ guardia\ peresozo\r\n\ @param\ xPos,\ pos\ x\ donde\ se\ encuentra\ la\ puerta\ de\ la\ habitaci\u00F3n\ en\ la\ cual\ pertenece\ el\ guardia.\r\n\ @param\ yPos,\ pos\ y\ donde\ se\ encuentra\ la\ puerta\ de\ la\ habitaci\u00F3n\ en\ la\ cual\ pertenece\ el\ guardia.\r\n\ @param\ color,\ habitaci\u00F3n\ a\ la\ que\ pertenece\ el\ guardia\r\n
+comment2.params=xPos\ yPos
+comment2.target=void\ setPos(int,\ int)
+comment2.text=\r\n\ Sobre\ escritura\ del\ metodo\ setPos\ ya\ que\ este\ solo\ se\ mueve\ la\ mitad\ del\ recorrido\r\n\ @param\ xPos,\ posici\u00F3n\ horizontal\ a\ la\ cual\ se\ espera\ mover\ al\ guardia.\r\n\ @p\u00E1ram\ yPos,\ posici\u00F3n\ vertical\ a\ la\ cual\ se\ espera\ mover\ al\ guardia.\r\n
+numComments=3

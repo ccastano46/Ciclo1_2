@@ -77,6 +77,32 @@ public class Gallery
    }
    
    /**
+    * Metodo para crear un nuevo cuarto.
+    * @param type, tipo de cuarto que desea construir ("normal", "unprotected", "standby") el cuarto por defecto es normal
+    * @param color, color con el cual se va a identificar el cuarto.
+    * @param polygon, matriz n x 2, que contiene las cordenadas de los vertices del poligono.
+    */
+   public void buildRoom(String type,String color, int[][] polygon){
+       if (polygon[0].length == polygon[1].length && !onlyOneRoom){
+           for (int i = 0; i < polygon[1].length; i++){
+               polygon[1][i] = Math.abs(polygon[1][i] - length);
+            }
+            if(!rooms.containsKey(color)){
+                if(type.equals("unprotected")) rooms.put(color, new Unprotected(color, polygon));
+                else if(type.equals("standby")) rooms.put(color, new Standby(color, polygon));
+                else rooms.put(color, new Room(color, polygon));
+                rooms.get(color).makeVisible();
+                proceso = true;
+            } else{
+                JOptionPane.showMessageDialog(null, "Un cuarto de ese color ya existe");
+                proceso = false;
+            }
+       } else{
+            proceso = false;
+        }  
+        if (onlyOneRoom) JOptionPane.showMessageDialog(null, "Para esta galería no se puede construir más de un cuarto");
+    }
+   /**
     * Metodo para posicionar una escultura dentro de un cuarto.
     * @param room, cuarto al cual va a pertenecer la escultura.
     * @param x, posición x (latitud) de la escultura.
@@ -84,7 +110,24 @@ public class Gallery
     */
    
    public void displaySculpture(String room, int x, int y){
-       if(rooms.containsKey(room) && rooms.get(room).displaySculpture(x,Math.abs(y - length ))) {
+       if(rooms.containsKey(room) && rooms.get(room).displaySculpture("normal", x,Math.abs(y - length ))) {
+           proceso = true;
+       }
+       else {
+           proceso = false;
+           JOptionPane.showMessageDialog(null, "El cuarto indicado no existe o no se puede poner la escultura en esa posición");
+       }
+   }
+   /**
+    * Metodo para posicionar una escultura dentro de un cuarto.
+    * @param type, tipo de la escultura que se quiere colocar ("normal", "shy" o "heavy"). El tipo por defecto es "normal".
+    * @param room, cuarto al cual va a pertenecer la escultura.
+    * @param x, posición x (latitud) de la escultura.
+    * @param y, posición y (longitud) de la escultura.
+    */
+   
+   public void displaySculpture(String type, String room, int x, int y){
+       if(rooms.containsKey(room) && rooms.get(room).displaySculpture(type,x,Math.abs(y - length ))) {
            proceso = true;
        }
        else {
@@ -100,15 +143,29 @@ public class Gallery
    
    public void arriveGuard(String room){
        if(rooms.containsKey(room)){
-           rooms.get(room).arriveGuard();
+           rooms.get(room).arriveGuard("normal");
            proceso = true;
            
        } else{
            proceso = false;
        }
-       
-       
    }
+   
+   /**
+    * Metodo para posicionar al guardia en la puerta del cuarto.
+    * @param room, cuarto al cual va a llegar el guardia.
+    * @param type, tipo de guardia que se quiere colocar en el cuarto ("normal", "lazy", "magical"). El guardia por defecto es normal
+    */
+   
+   public void arriveGuard(String type, String room){
+       if(rooms.containsKey(room)){
+           rooms.get(room).arriveGuard(type);
+           proceso = true;
+       } else{
+           proceso = false;
+       }
+   }
+
    
    /**
     * Metodo para mover un guardia dentro de un cuarto.
@@ -121,7 +178,6 @@ public class Gallery
            proceso = true;
        }
        else {
-           
            proceso = false;
        }
    }
@@ -224,6 +280,8 @@ public class Gallery
                 }
             }catch(RoomException e){
                 System.out.println(room +": " + RoomException.ESCULTURA_PESADA + ". Se va a intentar con otra");
+            }catch(NullPointerException exc){
+                System.out.println(room +": " + RoomException.SIN_ESCULTURA);
             }
         }
     }
@@ -324,6 +382,15 @@ public class Gallery
      */
     protected float shortestDistance(String room){
         return rooms.get(room).shortestDistance();
+    }
+    
+    /**
+     * Función que identifica si la escultura de un cuarto aparece o no en el canvas.
+     * @param cuarto, habitación que se desea analizar.
+     */
+    public boolean sculptureVisible(String cuarto){
+        if(rooms.containsKey(cuarto)) return rooms.get(cuarto).sculptureVisible();
+        else return false;
     }
    
 }

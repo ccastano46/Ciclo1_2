@@ -18,10 +18,11 @@ public class Standby extends Room
     
     /**
      * Sobre escritrura del metodo displaySculpture ya que, en este tipo de habitación no tiene escultura.
+     * @param type, tipo de escultura que se desea colocar
      * @param xPos, posición x del cuarto
      * @param yPos, posicion y del cuarto
      */
-    public boolean displaySculpture(int xPos, int yPos){
+    public boolean displaySculpture(String type,int xPos, int yPos){
         JOptionPane.showMessageDialog(null, "En una habitación Standby no se pueden colocar esculturas.");
         return false;
     }

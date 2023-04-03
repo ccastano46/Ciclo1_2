@@ -53,9 +53,10 @@ public class Room
     
     /**
      * Metodo para posicionar al guardia en la puerta de la galeria
+     * @param type, tipo de guardia que se quiere colocar en la habitación ("normal", "lazy", "magical"). El guardia por defecto es normal
      */
        
-   public void arriveGuard(){
+   public void arriveGuard(String type){
         int maxY = (int) Double.NEGATIVE_INFINITY;
         int maxX = (int) Double.NEGATIVE_INFINITY;
         for (int i = 0; i < vertices[1].length; i++){
@@ -67,9 +68,11 @@ public class Room
                 maxX = vertices[0][i];
             }
         }
-        guard = new Guard(maxX, maxY, color);
+        if(type.equals("lazy"))guard = new Lazy(maxX, maxY, color);
+        else if(type.equals("magical"))guard = new Magical(maxX, maxY, color);
+        else guard = new Guard(maxX, maxY, color);
         guard.makeVisible();
-        if(sculpture.getType().equals("shy")) desaparecerShy();
+        desaparecerShy();
     }
     
     
@@ -79,9 +82,9 @@ public class Room
      * @param yPos, posicion y del cuarto
      */
     public boolean moveGuard(int xPos, int yPos){
-        if (representacion.contains(xPos,yPos)){
+        if (representacion.contains(xPos,yPos) || guard instanceof Magical){
             guard.setPos(xPos, yPos);
-            if(sculpture.getType().equals("shy")) desaparecerShy();
+            desaparecerShy();
             return true;
         } else{
             return false;
@@ -91,18 +94,21 @@ public class Room
     
     /**
      * Funcion para ubicar a la escultura en una posicion especifica del cuarto
+     * @param type, tipo de escultura que se desea colocar
      * @param xPos, posición x del cuarto
      * @param yPos, posicion y del cuarto
      */
-    public boolean displaySculpture(int xPos, int yPos){
+    public boolean displaySculpture(String type,int xPos, int yPos){
+        boolean sePudo = false;
         if(representacion.contains(xPos,yPos) && !isASculpture()){
-            sculpture = new Sculpture(color, xPos, yPos, "normal");
+            sculpture = new Sculpture(color, xPos, yPos, type);
             sculpture.makeVisible();
-            return true;
+            sePudo = true;
         }else{
             if (isASculpture()) JOptionPane.showMessageDialog(null, "Ya existe una escultura en el cuarto");
-            return false;
         }
+        desaparecerShy();
+        return sePudo;
     }
     
     /**
@@ -110,11 +116,13 @@ public class Room
      */
     private void desaparecerShy(){
         try{
-            if(guardIsWatching(getGuardLocation()[0],getGuardLocation()[1], getSculptureLocation()[0], getSculptureLocation()[1])){
+            if(guardIsWatching(getGuardLocation()[0],getGuardLocation()[1], getSculptureLocation()[0], getSculptureLocation()[1]) && sculpture.getType().equals("shy")){
             sculpture.makeInvisible();
-            }
+            }else sculpture.makeVisible();
         }catch(RoomException e){
-            JOptionPane.showMessageDialog(null, RoomException.SIN_ESCULTURA + " o " + RoomException.SIN_GUARDIA);
+            System.out.println(RoomException.SIN_ESCULTURA + " o " + RoomException.SIN_GUARDIA);
+        }catch( IndexOutOfBoundsException e){
+            System.out.println(RoomException.SIN_ESCULTURA + " o " + RoomException.SIN_GUARDIA);
         }
     }
     
@@ -160,6 +168,7 @@ public class Room
         if (sculpture != null) return sculpture.getPos();
         return new int[] {};
     }
+    
     /**
      * Metodo que indica en que parte de la galeria se encuentra el guardia
      */
@@ -173,6 +182,7 @@ public class Room
      */
     public void steal() throws RoomException{
         if(sculpture.getType().equals("heavy")) throw new RoomException(RoomException.ESCULTURA_PESADA);
+        if(sculpture == null) throw new NullPointerException(RoomException.SIN_ESCULTURA);
         sculpture.makeInvisible();
         sculpture = null;
     }
@@ -292,6 +302,7 @@ public class Room
      * @return distancia más corta.
      */
     public float shortestDistance(){
+        if(guard instanceof Magical && !representacion.contains(getGuardLocation()[0], getGuardLocation()[1])) devolverMagical();
         float minimo = 500000000;
         try{
             int[] origen = getGuardLocation();
@@ -325,6 +336,28 @@ public class Room
             JOptionPane.showMessageDialog(null, RoomException.SIN_ESCULTURA + " o " + RoomException.SIN_GUARDIA);
         }
         return minimo;
+    }
+    /**
+     * Metodo que devuelve a un guardia tipo Magical al vertice de su habitación más cercano
+     */
+    private void devolverMagical(){
+        float minimo = 500000000;
+        int[] cercano = getGuardLocation();
+        float camino;
+        for(int i = 0; i < vertices[0].length; i++){
+            camino = new Line(getGuardLocation()[0], getGuardLocation()[1], vertices[0][i], vertices[1][i]).longitud();
+            if(camino < minimo){
+                cercano[0] = vertices[0][i];
+                cercano[1] = vertices[1][i];
+            }
+        }
+        moveGuard(cercano[0], cercano[1]);
+    }
+    /**
+     * Función que identifica si la escultura  aparece o no en el canvas
+     */
+    public boolean sculptureVisible(){
+        return sculpture.isVisible();
     }
 }
     
