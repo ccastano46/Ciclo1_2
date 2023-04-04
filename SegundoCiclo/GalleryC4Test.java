@@ -99,4 +99,44 @@ public class GalleryC4Test{
         assertFalse(galeria.sculptureIsPresent("blue"));
         assertEquals(galeria.roomsOnAlert(),new String[] {"red","yellow"});
     }
+    
+    @Test
+    public void shouldBeLazy(){
+        Gallery gl= new Gallery(700,700);
+        gl.buildRoom("black",new int[][]{{60,80,160,200,140,120,180,120,100},{40,140,200,120,120,100,100,60,80}});
+        gl.displaySculpture("black",180,140);
+        gl.arriveGuard("lazy","black");
+        gl.moveGuard("black",160,160);
+        //assertEquals(Math.round(0 * 100.0) / 100.0 ,Math.round(gl.distanceTraveled("black") * 100.0) / 100.0,0);
+        gl.moveGuard("black",100,80);
+        //assertEquals(Math.round(10 * 100.0) / 100.0 ,Math.round(gl.distanceTraveled("black") * 100.0) / 100.0,0);
+    }
+    
+    @Test 
+    public void shouldBeTrap(){
+        Gallery gl= new Gallery(700,700);
+        gl.buildRoom("trap","black",new int[][]{{60,80,160,200,140,120,180,120,100},{40,140,200,120,120,100,100,60,80}});
+        gl.displaySculpture("","black",180,140);
+        gl.displaySculpture("","black",120,140);
+        gl.arriveGuard("black");
+        gl.moveGuard("black",130,80);
+        gl.steal();
+        assertEquals(new String[] {"black"},gl.roomsWithFalseAlarm());
+        gl.steal();
+        assertEquals(new String[] {},gl.roomsWithFalseAlarm());
+    }
+    
+    @Test 
+    public void shouldBeTrapNotSteal(){
+        Gallery gl= new Gallery(700,700);
+        gl.buildRoom("trap","black",new int[][]{{60,80,160,200,140,120,180,120,100},{40,140,200,120,120,100,100,60,80}});
+        gl.displaySculpture("","black",180,140);
+        gl.displaySculpture("","black",130,80);
+        gl.arriveGuard("black");
+        gl.moveGuard("black",150,140);
+        gl.steal();
+        assertEquals(new String[] {"black"},gl.roomsWithFalseAlarm());
+        gl.steal();
+        assertEquals(new String[] {"black"},gl.roomsWithFalseAlarm());
+    }
 }

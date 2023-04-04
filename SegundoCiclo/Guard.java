@@ -8,8 +8,8 @@ import java.lang.Math;
  */
 public class Guard
 {
-    private int xPos;
-    private int yPos;
+    protected int xPos;
+    protected int yPos;
     private String color;
     private Rectangle representacion;
     private Line recorrido;
@@ -51,19 +51,20 @@ public class Guard
      * @páram yPos, posición vertical a la cual se quiere mover al guardia
      */
     public void setPos(int xPos, int yPos){
+        System.out.println("guard");
         if(firstMove){
             firstMove = false;
         }else{
             distanciaRecorrida += (float) Math.sqrt(Math.pow(xPos - this.xPos,2) + Math.pow(yPos - this.yPos,2));
+            recorrido=null;
+            recorrido= new Line(this.xPos+6/2,this.yPos+6/2,xPos+6/2,yPos+6/2);
+            recorrido.makeVisible();
         }
-        recorrido=null;
-        recorrido= new Line(this.xPos+6/2,this.yPos+6/2,xPos+6/2,yPos+6/2);
         this.xPos=xPos;
         this.yPos=yPos;
         representacion.makeInvisible();
         representacion.locate(xPos,yPos);
         representacion.makeVisible();
-        recorrido.makeVisible();
     }
     
     /**

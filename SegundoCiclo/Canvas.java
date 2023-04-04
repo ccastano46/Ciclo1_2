@@ -43,6 +43,8 @@ public class Canvas{
         return canvasSingleton;
     }
     
+    
+    
 
     //  ----- instance part -----
 
@@ -74,6 +76,7 @@ public class Canvas{
         
         
     }
+
     
 
     /**

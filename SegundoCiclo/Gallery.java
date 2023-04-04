@@ -90,6 +90,7 @@ public class Gallery
             if(!rooms.containsKey(color)){
                 if(type.equals("unprotected")) rooms.put(color, new Unprotected(color, polygon));
                 else if(type.equals("standby")) rooms.put(color, new Standby(color, polygon));
+                else if(type.equals("trap")) rooms.put(color, new Trap(color, polygon));
                 else rooms.put(color, new Room(color, polygon));
                 rooms.get(color).makeVisible();
                 proceso = true;
@@ -129,8 +130,15 @@ public class Gallery
    public void displaySculpture(String type, String room, int x, int y){
        if(rooms.containsKey(room) && rooms.get(room).displaySculpture(type,x,Math.abs(y - length ))) {
            proceso = true;
-       }
-       else {
+       }else if(rooms.get(room) instanceof Trap){
+           System.out.print("si");
+           Trap roomTrap = (Trap) rooms.get(room);
+           if(roomTrap.displayFakeSculpture(type,x,Math.abs(y - length ))){
+               proceso = true;
+           }else{
+               proceso = false;
+           }
+       }else {
            proceso = false;
            JOptionPane.showMessageDialog(null, "El cuarto indicado no existe o no se puede poner la escultura en esa posición");
        }
@@ -174,7 +182,13 @@ public class Gallery
     * @param y, posición y (longitud) a la cual se quiere mover el guardia.
     */
    public void moveGuard(String room, int x, int y){
-       if(rooms.containsKey(room) && rooms.get(room).moveGuard(x,Math.abs(y - length ))) {
+       if(rooms.get(room).getGuard() instanceof Lazy){
+           float aux =(float) y/2;
+           System.out.println(aux);
+           rooms.get(room).moveGuard(x,Math.abs((int) aux- length));
+        }
+       else if(rooms.containsKey(room) && rooms.get(room).moveGuard(x,Math.abs(y - length))) {
+           
            proceso = true;
        }
        else {
@@ -392,5 +406,7 @@ public class Gallery
         if(rooms.containsKey(cuarto)) return rooms.get(cuarto).sculptureVisible();
         else return false;
     }
+    
+    
    
 }

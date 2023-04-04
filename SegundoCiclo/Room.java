@@ -13,9 +13,9 @@ public class Room
     private boolean alarm;
     private int[][] vertices;
     private String color;
-    private Guard guard;
-    private Sculpture sculpture;
-    private Polygon representacion;
+    protected Guard guard;
+    protected Sculpture sculpture;
+    protected Polygon representacion;
 
     private Polygon areaVisibleSculpture;
 
@@ -86,7 +86,8 @@ public class Room
             guard.setPos(xPos, yPos);
             desaparecerShy();
             return true;
-        } else{
+        }else{
+            
             return false;
         }
     }
@@ -114,7 +115,7 @@ public class Room
     /**
      * Metodo para hacer invisible una escultura tipo shy cuando el guardia la esta viendo
      */
-    private void desaparecerShy(){
+    protected void desaparecerShy(){
         try{
             if(guardIsWatching(getGuardLocation()[0],getGuardLocation()[1], getSculptureLocation()[0], getSculptureLocation()[1]) && sculpture.getType().equals("shy")){
             sculpture.makeInvisible();
@@ -358,6 +359,10 @@ public class Room
      */
     public boolean sculptureVisible(){
         return sculpture.isVisible();
+    }
+    
+    public Guard getGuard(){
+        return guard;
     }
 }
     
