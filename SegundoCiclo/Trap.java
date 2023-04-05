@@ -28,7 +28,6 @@ public class Trap extends Room
     
     public void steal() throws RoomException {
         if(fakeSculpture == null){
-            System.out.println("in1");
             super.steal();
         }else{
           if(fakeSculpture.getType().equals("heavy")) throw new RoomException(RoomException.ESCULTURA_PESADA);
