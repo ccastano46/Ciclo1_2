@@ -78,7 +78,7 @@ public class Gallery
    
    /**
     * Metodo para crear un nuevo cuarto.
-    * @param type, tipo de cuarto que desea construir ("normal", "unprotected", "standby") el cuarto por defecto es normal
+    * @param type, tipo de cuarto que desea construir ("normal", "unprotected", "standby","trap") el cuarto por defecto es normal
     * @param color, color con el cual se va a identificar el cuarto.
     * @param polygon, matriz n x 2, que contiene las cordenadas de los vertices del poligono.
     */
@@ -133,7 +133,7 @@ public class Gallery
        }else if(rooms.get(room) instanceof Trap){
            System.out.print("si");
            Trap roomTrap = (Trap) rooms.get(room);
-           if(roomTrap.displayFakeSculpture(type,x,Math.abs(y - length ))){
+           if(roomTrap.displayFakeSculpture(x,Math.abs(y - length ))){
                proceso = true;
            }else{
                proceso = false;
@@ -290,6 +290,7 @@ public class Gallery
                     rooms.get(room).steal();
                     alarm(room, true);
                     proceso = true;
+                    System.out.println("La escultura de la habitación " + room +" fue robada.");
                     break;
                 }
             }catch(RoomException e){
