@@ -12,5 +12,5 @@ comment3.target=void\ steal()
 comment3.text=\r\n\ Metodo\ sobrecargado\ de\ la\ clase\ padre\ donde\ se\ roba\ una\ escultura,\ pero\ tendra\ la\ proriedad\ de\ robar\r\n\ la\ esculutura\ falsa\ si\ existe\ una.\r\n
 comment4.params=
 comment4.target=int[]\ getSculptureLocation()
-comment4.text=\r\n\ Metodo\ sobrecargado\ de\ la\ clase\ padre,\ ahora\ tiene\ la\ proriedad\ de\r\n\ retornar\ la\ posicion\ de\ la\ escultura\ falsa\ si\ existe\r\n\ @return\ las\ posiciones\ de\ x\ y\ en\ y\ de\ la\ escultura\ falsa\r\n
+comment4.text=\r\n\ Metodo\ sobrecargado\ de\ la\ clase\ padre,\ ahora\ tiene\ la\ proriedad\ de\r\n\ retornar\ la\ posicion\ de\ la\ escultura\ falsa\ si\ existe\r\n\ @return\ las\ posiciones\ de\ x\ y\ en\ y\ de\ la\ escultura\ falsa.\r\n\ @throws\ SIN_ESCULTURA\ si\ dentro\ del\ cuarto\ no\ existe\ una\ fakeSculpture\ o\ una\ escultura\ real\r\n
 numComments=5

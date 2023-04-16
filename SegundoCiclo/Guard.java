@@ -12,7 +12,7 @@ public class Guard
     protected int yPos;
     private String color;
     private Rectangle representacion;
-    private Line recorrido;
+    protected Line recorrido;
     private float distanciaRecorrida;
     private boolean firstMove = true;
     
@@ -51,7 +51,6 @@ public class Guard
      * @páram yPos, posición vertical a la cual se quiere mover al guardia
      */
     public void setPos(int xPos, int yPos){
-        System.out.println("guard");
         if(firstMove){
             firstMove = false;
         }else{
@@ -80,6 +79,7 @@ public class Guard
      */
     public void makeInvisible(){
         representacion.makeInvisible();
+        recorrido.makeInvisible();
     }
     
     public float getDistanciaRecorrida(){

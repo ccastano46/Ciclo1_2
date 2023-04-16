@@ -29,7 +29,7 @@ public class Trap extends Room
             fakeSculpture.makeVisible();
             proceso = true;
         }else{
-            JOptionPane.showMessageDialog(null, "Ya existe una escultura en el cuarto");
+            JOptionPane.showMessageDialog(null, "Ya existe una escultura en el cuarto o no se puede poner en esa posición");
         }
         return proceso;
     }
@@ -50,9 +50,10 @@ public class Trap extends Room
     /**
      * Metodo sobrecargado de la clase padre, ahora tiene la proriedad de
      * retornar la posicion de la escultura falsa si existe
-     * @return las posiciones de x y en y de la escultura falsa
+     * @return las posiciones de x y en y de la escultura falsa.
+     * @throws SIN_ESCULTURA si dentro del cuarto no existe una fakeSculpture o una escultura real
     **/
-    public int[] getSculptureLocation(){
+    public int[] getSculptureLocation() throws RoomException{
         if(fakeSculpture == null){
             System.out.println("in2");
             return super.getSculptureLocation();

@@ -106,7 +106,7 @@ public class Room
             sculpture.makeVisible();
             sePudo = true;
         }else{
-            if (isASculpture()) JOptionPane.showMessageDialog(null, "Ya existe una escultura en el cuarto");
+            if (isASculpture()) JOptionPane.showMessageDialog(null, "Ya existe una escultura en el cuarto o no se puede colocar la escultura en esa pos");
         }
         desaparecerShy();
         return sePudo;
@@ -164,18 +164,20 @@ public class Room
     
     /**
      * Metodo que indica en que parte de la galeria se encuentra la escultura
+     * @throws SIN_ESCULTURA si no existe un guardia en la habitación
      */
-    public int[] getSculptureLocation(){
-        if (sculpture != null) return sculpture.getPos();
-        return new int[] {};
+    public int[] getSculptureLocation() throws RoomException{
+        if (sculpture == null) throw new RoomException(RoomException.SIN_ESCULTURA);
+        return sculpture.getPos();
     }
     
     /**
      * Metodo que indica en que parte de la galeria se encuentra el guardia
+     * @throws SIN_GUARDIA si no existe un guardia en la habitación 
      */
-    public int[] getGuardLocation(){
-        if (guard != null) return guard.getPos();
-        return new int[] {};
+    public int[] getGuardLocation() throws RoomException{
+        if (guard == null) throw new RoomException(RoomException.SIN_GUARDIA);
+        return guard.getPos();
     }
     
     /**
@@ -202,10 +204,9 @@ public class Room
      * @param guardY, posición y del guardia.
      * @param sculptureX, posición x de la escultura.
      * @param sculptureY, posición y de la escultura.
+     * 
      */
-    public boolean guardIsWatching(int guardX, int guardY, int sculptureX, int sculptureY) throws RoomException{
-        if(guard == null) throw new RoomException(RoomException.SIN_GUARDIA);
-        if(sculpture == null) throw new RoomException(RoomException.SIN_ESCULTURA);
+    public boolean guardIsWatching(int guardX, int guardY, int sculptureX, int sculptureY){
         double[] vector = {(sculptureX + 0.5) - guardX, sculptureY - 0.5 - guardY};
         boolean isContained = false;
         boolean veElCentro = true;
@@ -246,6 +247,8 @@ public class Room
      * Función para identificar los vertices del poligono que ven a la escultura o al guardia.
      * @param objetivo, elemento del cuarto del cual se desea realizar el estudio.
      * @return lista de todas las lineas desde la escultura/guardia a los vertices que l@ ven.
+     * @throws SIN_GUARDIA si objetivo.equals("guard") y el cuarto no tiene algun guardia,
+     * @throws SIN_ESCULTURA si !objetivo.equals("guard") y el cuarto no tiene alguna escultura.
      */
     private Line[] visibleLines(String objetivo) throws RoomException{
         ArrayList<Line> lineasVisibles = new ArrayList<Line>();
@@ -271,6 +274,8 @@ public class Room
      * Función para identificar los puntos de intersección entre las lineas de visión de la escultura y su recta perpendicular desde cada uno de 
      los vertices que ve al guardia.
      * @return lista de todas las lineas desde los vertices que ven al guardia hasta los puntos de intersección en la linea de visión.
+     * @throws SIN_GUARDIA si el cuarto no tiene algun guardia,
+     * @throws SIN_ESCULTURA si  cuarto no tiene alguna escultura.
      */
     
     private Line[] puntosDeInteres() throws RoomException{
@@ -303,7 +308,13 @@ public class Room
      * @return distancia más corta.
      */
     public float shortestDistance(){
-        if(guard instanceof Magical && !representacion.contains(getGuardLocation()[0], getGuardLocation()[1])) devolverMagical();
+        float caminoRegreso = 0;
+        try{
+            if(guard instanceof Magical && !representacion.contains(getGuardLocation()[0], getGuardLocation()[1])) caminoRegreso = devolverMagical();
+        }catch(RoomException e){
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        
         float minimo = 500000000;
         try{
             int[] origen = getGuardLocation();
@@ -322,12 +333,14 @@ public class Room
                     camino = new Line(origen[0], origen[1], punto1[0], punto1[1]).longitud();
                     if(guardIsWatching((int) Math.round(punto1[0]), (int) Math.round(punto1[1]), getSculptureLocation()[0], getSculptureLocation()[1]) && camino < minimo){
                         minimo = camino;
+                        
                     }
                     else{
                         for(double[] punto2 : destinos2){
                             camino = new Line(origen[0], origen[1], punto1[0], punto1[1]).longitud() + new Line(punto1[0], punto1[1], punto2[0], punto2[1]).longitud();
                             if(camino < minimo && guardIsWatching((int) Math.round(punto2[0]), (int) Math.round(punto2[1]), getSculptureLocation()[0], getSculptureLocation()[1])){
                                 minimo = camino;
+                                
                             }
                         }
                     }
@@ -336,15 +349,16 @@ public class Room
         }catch(RoomException e){
             JOptionPane.showMessageDialog(null, RoomException.SIN_ESCULTURA + " o " + RoomException.SIN_GUARDIA);
         }
-        return minimo;
+        return minimo + caminoRegreso;
     }
     /**
      * Metodo que devuelve a un guardia tipo Magical al vertice de su habitación más cercano
+     * @throws SIN_GUARDIA en caso de que el guardia no contenga ningun guardia.
      */
-    private void devolverMagical(){
+    private float devolverMagical() throws RoomException{
         float minimo = 500000000;
         int[] cercano = getGuardLocation();
-        float camino;
+        float camino = 0;
         for(int i = 0; i < vertices[0].length; i++){
             camino = new Line(getGuardLocation()[0], getGuardLocation()[1], vertices[0][i], vertices[1][i]).longitud();
             if(camino < minimo){
@@ -352,7 +366,12 @@ public class Room
                 cercano[1] = vertices[1][i];
             }
         }
+        if(this.representacion.contains(cercano[0],cercano[1] + 1)) cercano[1] +=1;
+        else if(this.representacion.contains(cercano[0],cercano[1] - 1)) cercano[1] -=1;
+        else if(this.representacion.contains(cercano[0] +1,cercano[1])) cercano[0] += 1;
+        else if(this.representacion.contains(cercano[0] -1,cercano[1])) cercano[0] -= 1;
         moveGuard(cercano[0], cercano[1]);
+        return camino;
     }
     /**
      * Función que identifica si la escultura  aparece o no en el canvas
